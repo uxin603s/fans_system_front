@@ -10,6 +10,8 @@
 <script src="app/app.js?t=<?=time();?>"></script>
 
 <script src="app/components/fansList/fansList.js?t=<?=time();?>"></script>
+<script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
+
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?t=<?=time();?>">
 <link rel="stylesheet" type="text/css" href="css/index.css?t=<?=time();?>">
