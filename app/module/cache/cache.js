@@ -1,5 +1,5 @@
-angular.module('app')
-.factory('cache',['$rootScope',function($rootScope){
+angular.module('cache',[])
+.run(['$rootScope',function($rootScope){
 	var cache={
 		data:{
 			not_finish_flag:true,
@@ -26,5 +26,4 @@ angular.module('app')
 		},500)
 	});
 	$rootScope.__proto__.cache=cache.data;
-	return cache.data;
 }])
