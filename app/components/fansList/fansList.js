@@ -2,8 +2,8 @@ angular.module('app').component("fansList",{
 bindings:{
 },
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
-controller:["$scope","cache",
-function($scope,cache){
+controller:["$scope",
+function($scope){
 	$scope.status_arr={
 		0:"下架",
 		1:"上架",
