@@ -2,8 +2,8 @@ angular.module('app').component("fansList",{
 bindings:{
 },
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
-controller:["$scope",function($scope){
-	
+controller:["$scope","tagSystem",function($scope,tagSystem){
+	console.log(tagSystem)
 	$scope.field_data={
 		status:{
 			name:"狀態",
@@ -82,11 +82,13 @@ controller:["$scope",function($scope){
 			$scope.$apply();
 		},"json")
 	}
-	$scope.text_change=function(item){
+	$scope.text_change=function(item,field){
+		var update={}
+		update[field]=item[field];
 		var timer_name="text_change_timer"+item.id;
 		clearTimeout($scope[timer_name]);
 		$scope[timer_name]=setTimeout(function(){
-			$scope.ch({comment:item.comment},{id:item.id})
+			$scope.ch(update,{id:item.id})
 		},500)
 	}
 	$scope.add_where_list=function(field,type,search){

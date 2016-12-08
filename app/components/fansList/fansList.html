@@ -1,6 +1,6 @@
-<div class="col-xs-12 text-center" >
+<div class="col-xs-12" >
 	<div 
-		class="col-xs-12 text-left bottom_line"
+		class="col-xs-12  bottom_line"
 	>	
 		<pagnation 
 		data="cache.limit" 
@@ -8,13 +8,13 @@
 		></pagnation>
 	</div>
 	<div 
-		class="col-xs-12 text-left bottom_line"
+		class="col-xs-12  bottom_line"
 	>	
 		系統訊息:{{message}}
 	</div>
 	
 	<div 
-		class="col-xs-12 text-left bottom_line"
+		class="col-xs-12  bottom_line"
 		style="height:50px;"
 	>
 		搜尋條件
@@ -58,8 +58,14 @@
 			></textarea>
 		</div>
 		
-		<div class="col-xs-2 ">
+		<div class="col-xs-1">
+			<select 
+			ng-options="id*1 as name for (id,name) in field_data.status.list"
+			ng-model="search.status"
+			ng-change="add_where_list('status',0,search);"
+			></select>
 			<button 
+			ng-if="0"
 			class="btn btn-primary btn-sm"
 			ng-repeat="(id,name) in field_data.status.list"
 			ng-click="search.status=id;add_where_list('status',0,search);"
@@ -67,7 +73,7 @@
 			{{name}}
 			</button>
 		</div>
-		<div class="col-xs-2">
+		<div class="col-xs-1">
 			<textarea 
 			placeholder="註記"
 			style="width:90%;"
@@ -78,6 +84,9 @@
 		</div>
 		<div class="col-xs-2">
 		標籤
+		</div>
+		<div class="col-xs-2">
+		功能
 		</div>
 	</div>
 	<div class="col-xs-12" ng-if="!list.length">
@@ -90,15 +99,34 @@
 	class="col-xs-12 " 
 	ng-repeat="item in list"
 	>
-		<div class="col-xs-2  text-left">
+		<div class="col-xs-2">
 			<a 
+			ng-show="!show"
+			ng-right-click="show=!show"
 			class="btn btn-primary btn-sm"
 			target="_blank" href="http://facebook.com/{{item.fb_id}}">
 			{{item.id}}:{{item.name}}
 			</a>
+			<div 
+			ng-show="show"
+			>
+				<textarea 
+				ng-enter="show=!show;text_change(item,'name');"
+				style="width:90%;"
+				ng-model="item.name"
+				></textarea>
+			</div>
 		</div>
-		<div class="col-xs-2">
+		<div class="col-xs-1">
+			
+			<select 
+			ng-options="id*1 as name for (id,name) in field_data.status.list"
+			ng-model="item.status"
+			ng-change="ch({status:item.status},{id:item.id})"
+			></select>
+			
 			<button 
+			ng-if="0"
 			class="btn btn-sm"
 			ng-class="id==item.status?'btn-danger':'btn-primary'"
 			ng-repeat="(id,name) in field_data.status.list"
@@ -107,14 +135,17 @@
 			{{name}}
 			</button>
 		</div>
-		<div class="col-xs-2">
+		<div class="col-xs-1">
 			<textarea 
 			style="width:90%;"
 			ng-model="item.comment"
-			ng-change="text_change(item)"
+			ng-change="text_change(item,'comment')"
 			></textarea>
 		</div>
 		<div class="col-xs-2">
+		</div>
+		<div class="col-xs-2 ">
+			<button class="btn btn-primary">同步</button>
 		</div>
 	</div>
 </div>

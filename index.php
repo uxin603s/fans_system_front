@@ -9,9 +9,12 @@
 
 <script src="app/app.js?t=<?=time();?>"></script>
 
+<script src="app/factories/tagSystem.js?t=<?=time();?>"></script>
+
 <script src="app/components/fansList/fansList.js?t=<?=time();?>"></script>
 <script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
 <script src="app/directives/ngEnter/ngEnter.js?t=<?=time();?>"></script>
+<script src="app/directives/ngRightClick/ngRightClick.js?t=<?=time();?>"></script>
 
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?t=<?=time();?>">
