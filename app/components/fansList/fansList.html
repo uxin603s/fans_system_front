@@ -28,89 +28,93 @@
 		{{field_data[item.field].list[item.value_tmp] || item.value_tmp}}
 		</button>
 	</div>
+	
+	
+	<div 
+	class="col-xs-12 odd"
+	style="height:50px;"
+	>
+		<div class="col-xs-2">
+			<textarea 
+			placeholder="id"
+			style="width:30%;"
+			type="text" 
+			ng-model="search.id"
+			ng-enter="add_where_list('id',0,search);"
+			></textarea>
+			<textarea 
+			placeholder="名稱"
+			style="width:30%;"
+			type="text" 
+			ng-model="search.name"
+			ng-enter="add_where_list('name',2,search);"
+			></textarea>
+			<textarea 
+			placeholder="fb_id"
+			style="width:30%;"
+			type="text" 
+			ng-model="search.fb_id"
+			ng-enter="add_where_list('fb_id',0,search);"
+			></textarea>
+		</div>
+		
+		<div class="col-xs-2 ">
+			<button 
+			class="btn btn-primary btn-sm"
+			ng-repeat="(id,name) in field_data.status.list"
+			ng-click="search.status=id;add_where_list('status',0,search);"
+			>
+			{{name}}
+			</button>
+		</div>
+		<div class="col-xs-2">
+			<textarea 
+			placeholder="註記"
+			style="width:90%;"
+			type="text" 
+			ng-model="search.comment"
+			ng-enter="add_where_list('comment',2,search);"
+			></textarea>
+		</div>
+		<div class="col-xs-2">
+		標籤
+		</div>
+	</div>
 	<div class="col-xs-12" ng-if="!list.length">
 		沒有資料
 	</div>
-	<div ng-if="list.length">
-		<div 
-		class="col-xs-12 odd"
-		style="height:50px;"
-		>
-			<div class="col-xs-2">
-				<input 
-				placeholder="id"
-				style="width:30%;"
-				type="text" 
-				ng-model="search.id"
-				ng-enter="add_where_list('id',0,search);"
-				/>
-				<input 
-				placeholder="名稱"
-				style="width:30%;"
-				type="text" 
-				ng-model="search.name"
-				ng-enter="add_where_list('name',2,search);"
-				/>
-				<input 
-				placeholder="fb_id"
-				style="width:30%;"
-				type="text" 
-				ng-model="search.fb_id"
-				ng-enter="add_where_list('fb_id',0,search);"
-				/>
-			</div>
-			
-			<div class="col-xs-2 ">
-				<button 
-				class="btn btn-primary btn-sm"
-				ng-repeat="(id,name) in field_data.status.list"
-				ng-click="search.status=id;add_where_list('status',0,search);"
-				>
-				{{name}}
-				</button>
-			</div>
-			<div class="col-xs-2">
-				<input 
-				placeholder="註記"
-				style="width:90%;"
-				type="text" 
-				ng-model="search.comment"
-				ng-enter="add_where_list('comment',2,search);"
-				/>
-			</div>
-			
+	<div 
+	ng-if="list.length"
+	style="height:50px;"
+	ng-class="$odd?'odd':'even'"
+	class="col-xs-12 " 
+	ng-repeat="item in list"
+	>
+		<div class="col-xs-2  text-left">
+			<a 
+			class="btn btn-primary btn-sm"
+			target="_blank" href="http://facebook.com/{{item.fb_id}}">
+			{{item.id}}:{{item.name}}
+			</a>
 		</div>
-		
-		<div 
-		style="height:50px;"
-		ng-class="$odd?'odd':'even'"
-		class="col-xs-12 " 
-		ng-repeat="item in list"
-		>
-			<div class="col-xs-2  text-left">
-				<a 
-				class="btn btn-primary btn-sm"
-				target="_blank" href="http://facebook.com/{{item.fb_id}}">
-				{{item.id}}:{{item.name}}
-				</a>
-			</div>
-			<div class="col-xs-2">
-				<button 
-				class="btn btn-sm"
-				ng-class="id==item.status?'btn-danger':'btn-primary'"
-				ng-repeat="(id,name) in field_data.status.list"
-				ng-click="ch({status:id},{id:item.id})"
-				>
-				{{name}}
-				</button>
-			</div>
-			<div class="col-xs-2">
-				<textarea 
-				style="width:90%;"
-				ng-model="item.comment"
-				ng-change="text_change(item)"
-				></textarea>
-			</div>
+		<div class="col-xs-2">
+			<button 
+			class="btn btn-sm"
+			ng-class="id==item.status?'btn-danger':'btn-primary'"
+			ng-repeat="(id,name) in field_data.status.list"
+			ng-click="ch({status:id},{id:item.id})"
+			>
+			{{name}}
+			</button>
+		</div>
+		<div class="col-xs-2">
+			<textarea 
+			style="width:90%;"
+			ng-model="item.comment"
+			ng-change="text_change(item)"
+			></textarea>
+		</div>
+		<div class="col-xs-2">
 		</div>
 	</div>
 </div>
