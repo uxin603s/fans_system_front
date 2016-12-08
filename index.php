@@ -11,12 +11,13 @@
 
 <script src="app/components/fansList/fansList.js?t=<?=time();?>"></script>
 <script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
+<script src="app/directives/ngEnter/ngEnter.js?t=<?=time();?>"></script>
 
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?t=<?=time();?>">
 <link rel="stylesheet" type="text/css" href="css/index.css?t=<?=time();?>">
 </head>
-<body ng-app="app">
+<body ng-app="app" class="container" style="overflow-y:scroll;">
 	<fans-list ng-if="!cache.not_finish_flag" ></fans-list>
 </body>
 </html>

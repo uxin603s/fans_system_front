@@ -14,7 +14,6 @@ angular.module("app").directive("pagnation",[function() {
 					if($scope.data.count==0){
 						$scope.page_arr=[];
 					}else{
-						console.log($scope.data.total_count,$scope.data.count)
 						$scope.page_count=Math.ceil($scope.data.total_count/$scope.data.count);
 						var page_arr=[];
 						for(var i=0;i<$scope.page_count;i++){
@@ -43,24 +42,25 @@ angular.module("app").directive("pagnation",[function() {
 				
 				$scope.callback && $scope.callback();
 			});
-			$scope.$watch("tmp_page",function(value){
-				clearTimeout($scope.tmp_page_timer);
-				$scope.tmp_page_timer=setTimeout(function(){
-					if(value*1<=0){
-						$scope.tmp_page=1
-					}else if(value*1>$scope.page_count-1){
-						$scope.tmp_page=$scope.page_count
-					}
-					$scope.data.page=$scope.tmp_page-1;
-					
-					$scope.$apply();
-				},500)
-			})
+			
+			$scope.tmp_page_func=function(){
+				if($scope.tmp_page*1<=0){
+					$scope.tmp_page=1
+				}else if($scope.tmp_page*1>$scope.page_count-1){
+					$scope.tmp_page=$scope.page_count
+				}
+				$scope.data.page=$scope.tmp_page-1;
+			}
+			
+			$scope.tmp_count_func=function(){
+				$scope.data.count=$scope.tmp_count;
+			}
+			
 			$scope.$watch('data.count',function(value){
 				if(!value)return;
-				// $scope.data.page=0;
-				wacth_page_arr();
+				$scope.tmp_count=value;
 				
+				wacth_page_arr();
 				$scope.callback && $scope.callback();
 			});
 

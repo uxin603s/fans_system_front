@@ -10,14 +10,14 @@
 .even>div:nth-child(even){
 	background:#eee;
 }
-.odd div,.even div{
+.odd>div,.even>div{
 	height:100%;
+	overflow-y:auto;
 }
-.odd div::before,.even div::before{
-	content:'';
-	width:0;
-	height:100%;
-	display:inline-block;
-	position:relative;
-	vertical-align:middle;
+.btn{
+	white-space: normal;
+}
+textarea{
+	width:90%;
+	height:90%;
 }
