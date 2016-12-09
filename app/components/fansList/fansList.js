@@ -3,6 +3,32 @@ bindings:{
 },
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","tagSystem",function($scope,tagSystem){
+	
+	$scope.$watch("tagSystem.tagList",function(value){
+		$scope.tagList=value;
+	},1)
+	$scope.$watch("tagSystem.idList",function(value){
+		if($scope.cache.mode){
+			$scope.idList=value;
+			$scope.get();
+		}
+	},1)
+	$scope.$watch("cache.mode",function(value){
+		tagSystem.setMode(value?0:1);
+		
+		$scope.get();
+	});
+	
+	$scope.cache.insert_list || ($scope.cache.insert_list=[]);
+	$scope.$watch("tagSystem.insert",function(value){
+		if(value && !$scope.cache.mode){
+			if($scope.cache.insert_list.indexOf(value)==-1){
+				$scope.cache.insert_list.push(value)
+			}
+		}
+	},1);
+	$scope.addTag=tagSystem.addIdRelation;
+	$scope.delTag=tagSystem.delIdRelation;
 	console.log(tagSystem)
 	$scope.field_data={
 		status:{
@@ -36,20 +62,40 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 		$scope.message="查詢中...";
 		clearTimeout($scope.get_timer);
 		$scope.get_timer=setTimeout(function(){
+			var where_list=[];
+			for(var i in $scope.cache.where_list){
+				where_list.push($scope.cache.where_list[i])
+			}
+			
+			if($scope.cache.mode){
+				for(var i in $scope.idList){
+					where_list.push({field:'id',type:0,value:$scope.idList[i]})
+				}
+				if(!$scope.idList || !$scope.idList.length){
+					$scope.message="完成查詢，沒有資料";
+					$scope.$apply();
+					return
+				}
+			}
 			
 			var post_data={
 				func_name:"FansList::getList",
 				arg:{
-					where_list:$scope.cache.where_list,
+					where_list:where_list,
 					limit:$scope.cache.limit,
 				},
 			}
 			$.post("ajax.php",post_data,function(res){
 				if(res.status){
 					$scope.list=res.list
+					
+					tagSystem.idSearchTag($scope.list.map(function(val){
+						return {id:val.id};
+					}))
 				}else{
 					$scope.list=[];
 				}
+				
 				$scope.message="完成查詢"
 				$scope.cache.limit.total_count=res.total_count;
 				

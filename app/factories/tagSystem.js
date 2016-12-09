@@ -17,17 +17,14 @@ angular.module('app')
 	var source;
 	var timer={};
 	var init=function(src){
-		iframe.onload=function(){
+		var load=function(){
 			source=iframe.contentWindow;
 			postMessageHelper.init("tagSystem",source)
 			postMessageHelper.send("tagSystem")
 			postMessageHelper.receive("tagSystem",function(res){
 				clearTimeout(timer[res.name])
-					timer[res.name]=setTimeout(function(){
-					if(res.name=="resize"){
-						data.size.w=res.value.w
-						data.size.h=res.value.h
-					}
+				timer[res.name]=setTimeout(function(){
+					
 					if(res.name=="idSearchTag"){
 						data.tagList=res.value;
 					}
@@ -37,11 +34,21 @@ angular.module('app')
 					if(res.name=="tagSearchId"){
 						data.idList=res.value
 					}
+					if(res.name=="resize"){
+						// console.log(res.value)
+						data.size.w=res.value.w
+						data.size.h=res.value.h
+					}
 					$rootScope.$apply();
 				},0)
 			})
 		}
+		// console.log('init',src)
+		iframe.onload=load
 		iframe.src=src;
+		// load();
+		
+		
 	}
 	var setMode=function(value){
 		postMessageHelper
