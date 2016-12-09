@@ -14,11 +14,25 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 		}
 	},1)
 	$scope.$watch("cache.mode",function(value){
-		tagSystem.setMode(value?0:1);
-		
+		// tagSystem.setMode(value?0:1);
+		tagSystem.tagSearchId($scope.cache.tagSearchId);
 		$scope.get();
 	});
 	
+	$scope.cache.tagSearchId || ($scope.cache.tagSearchId=[]);
+	$scope.$watch("cache.tagSearchId",function(value){
+		tagSystem.tagSearchId(value);
+	},1);
+	$scope.addSearch=function(search){
+ 		if($scope.cache.tagSearchId.indexOf(search.tag)==-1){
+			$scope.cache.tagSearchId.push(search.tag);
+		}
+		search.tag=''
+	}
+	$scope.delSearch=function(index){
+		$scope.cache.mode=true
+		$scope.cache.tagSearchId.splice(index,1);
+	}
 	$scope.cache.insert_list || ($scope.cache.insert_list=[]);
 	$scope.$watch("tagSystem.insert",function(value){
 		if(value && !$scope.cache.mode){
@@ -29,7 +43,7 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 	},1);
 	$scope.addTag=tagSystem.addIdRelation;
 	$scope.delTag=tagSystem.delIdRelation;
-	console.log(tagSystem)
+	// console.log(tagSystem)
 	$scope.field_data={
 		status:{
 			name:"狀態",
@@ -88,14 +102,13 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 			$.post("ajax.php",post_data,function(res){
 				if(res.status){
 					$scope.list=res.list
-					
 					tagSystem.idSearchTag($scope.list.map(function(val){
-						return {id:val.id};
-					}))
+						return val.id;
+					}));					
 				}else{
 					$scope.list=[];
 				}
-				
+
 				$scope.message="完成查詢"
 				$scope.cache.limit.total_count=res.total_count;
 				

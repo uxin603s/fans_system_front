@@ -5,10 +5,10 @@
 	border-bottom: 1px solid #c6c6c6;
 }
 .odd>div:nth-child(odd){
-	background:#eee;
+	background:#ccc;
 }
 .even>div:nth-child(even){
-	background:#eee;
+	background:#ccc;
 }
 .odd>div,.even>div{
 	height:100%;

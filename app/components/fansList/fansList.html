@@ -2,11 +2,6 @@
 	<div 
 		class="col-xs-12  bottom_line"
 	>
-		<input type="checkbox" ng-model="cache.mode" />tag搜尋模式
-	</div>
-	<div 
-		class="col-xs-12  bottom_line"
-	>
 		新增標籤列表
 		<button 
 		class="btn btn-sm" 
@@ -42,6 +37,11 @@
 		{{item.type==2?'包含':'等於'}}
 		{{field_data[item.field].list[item.value_tmp] || item.value_tmp}}
 		</button>
+		<button
+		ng-click="delSearch($index)"
+		ng-repeat="tag_name in cache.tagSearchId"
+		>{{tag_name}}</button>
+		
 	</div>
 	
 	
@@ -97,8 +97,12 @@
 			ng-enter="add_where_list('comment',2,search);"
 			></textarea>
 		</div>
-		<div class="col-xs-4">
+		<div class="col-xs-5">
 		標籤
+		<input type="text" 
+		ng-model="search.tag" 
+		ng-enter="addSearch(search)"
+		/>
 		</div>
 		<div class="col-xs-1">
 		人數
@@ -118,7 +122,6 @@
 	ng-repeat="item in list"
 	>
 		<div class="col-xs-2">
-			{{item.fb_id}}
 			<a 
 			ng-show="!show"
 			ng-right-click="show=!show"
@@ -156,13 +159,13 @@
 		</div>
 		<div class="col-xs-1">
 			<textarea 
-			style="width:90%;"
 			ng-model="item.comment"
 			ng-change="text_change(item,'comment')"
 			></textarea>
 		</div>
 		
-		<div class="col-xs-4">
+		<div class="col-xs-5">
+			<div ng-if="tagList[item.id]">
 			<textarea 
 			style="width:70px;vertical-align:middle;"
 			ng-model="tag.name"
@@ -184,13 +187,19 @@
 			ng-click="delTag(item.id,$index)"
 			ng-repeat="tag_name in tagList[item.id]"
 			>{{tag_name}}</button>
-			
+			</div>
+			<div ng-if="!tagList[item.id]">
+				標籤載入中
+			</div>
 		</div>
 		<div class="col-xs-1">
 		0
 		</div>
 		<div class="col-xs-2 ">
-			<button class="btn btn-primary">同步線上</button>
+			<button 
+			ng-if="0"
+			class="btn btn-primary" 
+			>同步線上</button>
 		</div>
 	</div>
 </div>

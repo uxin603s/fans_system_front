@@ -35,7 +35,6 @@ angular.module('app')
 						data.idList=res.value
 					}
 					if(res.name=="resize"){
-						// console.log(res.value)
 						data.size.w=res.value.w
 						data.size.h=res.value.h
 					}
@@ -43,17 +42,13 @@ angular.module('app')
 				},0)
 			})
 		}
-		// console.log('init',src)
 		iframe.onload=load
 		iframe.src=src;
-		// load();
-		
-		
 	}
-	var setMode=function(value){
-		postMessageHelper
-			.send("tagSystem",{name:'setMode',value:value})
-	}
+	// var setMode=function(value){
+		// postMessageHelper
+			// .send("tagSystem",{name:'setMode',value:value})
+	// }
 	var tagSearchId=function(value){
 		postMessageHelper
 			.send("tagSystem",{name:'tagSearchId',value:value})
@@ -84,7 +79,7 @@ angular.module('app')
 		init:init,
 		iframe:iframe,
 		data:data,
-		setMode:setMode,
+		// setMode:setMode,
 		tagSearchId:tagSearchId,
 		idSearchTag:idSearchTag,
 		idSearchSelect:idSearchSelect,

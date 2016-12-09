@@ -31,12 +31,8 @@ angular.module('app')
 
 </head>
 <body ng-app="app" class="container" style="overflow-y:scroll;">
-	<input 
-	type="checkbox" 
-	ng-model="tag_show"
-	/>標籤系統
+	
 	<tag-system 
-	ng-show="tag_show"
 	class="col-xs-12" 
 	style="height:{{tagSystem.size.h}}px"
 	></tag-system>
