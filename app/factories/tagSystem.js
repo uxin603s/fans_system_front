@@ -24,20 +24,23 @@ angular.module('app')
 			postMessageHelper.receive("tagSystem",function(res){
 				clearTimeout(timer[res.name])
 				timer[res.name]=setTimeout(function(){
-					
-					if(res.name=="idSearchTag"){
-						data.tagList=res.value;
-					}
-					if(res.name=="insert"){
-						data.insert=res.value
-					}
-					if(res.name=="tagSearchId"){
-						data.idList=res.value
-					}
 					if(res.name=="resize"){
 						data.size.w=res.value.w
 						data.size.h=res.value.h
 					}
+					if(res.name=="idSearchTag"){
+						data.tagList=res.value;
+					}
+					if(res.name=="getInsertList"){
+						data.insertList=res.value
+					}
+					if(res.name=="tagSearchId"){
+						data.idList=res.value
+					}
+					if(res.name=="searchTagName"){
+						data.customInsertList=res.value;
+					}
+					
 					$rootScope.$apply();
 				},0)
 			})
@@ -45,21 +48,15 @@ angular.module('app')
 		iframe.onload=load
 		iframe.src=src;
 	}
-	// var setMode=function(value){
-		// postMessageHelper
-			// .send("tagSystem",{name:'setMode',value:value})
-	// }
+	
 	var tagSearchId=function(value){
 		postMessageHelper
 			.send("tagSystem",{name:'tagSearchId',value:value})
 	}
+	
 	var idSearchTag=function(value){
 		postMessageHelper
 			.send("tagSystem",{name:'idSearchTag',value:value})
-	}
-	var idSearchSelect=function(value){
-		postMessageHelper
-			.send("tagSystem",{name:'idSearchSelect',value:value})
 	}
 	var addIdRelation=function(id,tag){
 		postMessageHelper
@@ -74,17 +71,20 @@ angular.module('app')
 		postMessageHelper
 			.send("tagSystem",{name:'chIdRelation',value:{id:id,a:a,b:b}})
 	}
-	
+	var searchTagName=function(tag){
+		postMessageHelper
+			.send("tagSystem",{name:'searchTagName',value:tag.name})
+		tag.name='';
+	}
 	return {
 		init:init,
 		iframe:iframe,
 		data:data,
-		// setMode:setMode,
 		tagSearchId:tagSearchId,
 		idSearchTag:idSearchTag,
-		idSearchSelect:idSearchSelect,
 		addIdRelation:addIdRelation,
 		delIdRelation:delIdRelation,
 		chIdRelation:chIdRelation,
+		searchTagName:searchTagName,
 	}
 }])
