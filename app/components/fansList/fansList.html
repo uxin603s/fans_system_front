@@ -14,71 +14,34 @@
 		系統訊息:{{message}}
 	</div>
 	
-	<div 
-		class="col-xs-6  bottom_line"
-		style="height:50px;"
-	>
-		搜尋條件
-		<input type="checkbox" ng-model="cache.mode" />
-		<button 
-		ng-click="cache.where_list.splice($index,1)"
-		class="btn btn-primary btn-sm"
-		ng-repeat="item in cache.where_list"
-		>
-		{{field_data[fieldNameR[item.field]].name}}
-		{{item.type==2?'包含':'等於'}}
-		{{field_data[fieldNameR[item.field]].list[item.value] || item.value}}
-		</button>
-		<button
-		class="btn btn-primary btn-sm"
-		ng-click="delSearch($index)"
-		ng-repeat="tag_name in cache.tagSearchId"
-		>{{tag_name}}</button>
-		
-	</div>
-	<div 
-		class="col-xs-6  bottom_line text-right"
-		style="height:50px;"
-	>
-		<select 
-		ng-options="item.enName as item.name for (index,item) in field_data"
-		ng-model="cache.where_list_item.field"
-		></select>
-		<select 
-		ng-options="index as item for (index,item) in where_list_type_arr"
-		ng-model="cache.where_list_item.type"
-		></select>
-		<div style="display:inline-block;">
-			<div ng-if="field_data[fieldNameR[cache.where_list_item.field]].list">
-				<select 
-				ng-options="index as item for (index,item) in field_data[fieldNameR[cache.where_list_item.field]].list"
-				ng-model="cache.where_list_item.value"
-				></select>
-			</div>
-			<div ng-if="!field_data[fieldNameR[cache.where_list_item.field]].list">
-				<input type="text"
-				ng-model="cache.where_list_item.value"
-				/>
-			</div>
-		</div>
-		<button 
-		class="btn btn-sm btn-primary"
-		ng-click="add_where_list(cache.where_list_item);cache.where_list_item.value=''"
-		>加入搜尋條件</button>
-	</div>
+	
+	<where-list
+	ng-if="fieldStruct"
+	data="fieldStruct"
+	where-list="cache.where_list"
+	order-list="cache.order_list"
+	callback="get"
+	></where-list>
+	
 	<div 
 		class="col-xs-12  bottom_line"
 		style="height:50px;"
 	>
-			id<textarea 
-			style="width:250px;vertical-align:middle;"
-			ng-model="fb_app.id"
-			></textarea>
-			secret<textarea 
-			style="width:250px;vertical-align:middle;"
-			ng-model="fb_app.secret" 
-			></textarea>
+		<button 
+		ng-class="cache.mode==item.id?'btn-danger':'btn-primary'"
+		class="btn btn-sm btn-primary"
+		ng-click="cache.mode==item.id?cache.mode=undefined:cache.mode=item.id"
+		ng-repeat="item in [{id:1,name:'標籤搜尋'},{id:2,name:'無標籤'},{id:3,name:'有標籤'}]"
+		>{{item.name}}</button>
+		
+		<button
+		ng-if="cache.mode==1"
+		class="btn btn-primary btn-sm"
+		ng-click="delSearch($index)"
+		ng-repeat="tag_name in cache.tagSearchId"
+		>{{tag_name}}</button>
 	</div>
-	<div ng-include="'app/components/fansList/tableView/head.html?t='+Date.now"></div>
+	
+	<div ng-if="0" ng-include="'app/components/fansList/tableView/head.html?t='+Date.now"></div>
 	<div ng-include="'app/components/fansList/tableView/row.html?t='+Date.now"></div>
 </div>
