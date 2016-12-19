@@ -1,6 +1,5 @@
 angular.module('app').component("fansList",{
-bindings:{
-},
+bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","tagSystem",function($scope,tagSystem){
 	

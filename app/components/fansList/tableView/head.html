@@ -1,50 +1,16 @@
 <div 
-class="col-xs-12"
-style="height:70px;"
+class="col-xs-12 odd text-center"
+style="height:50px;"
 >
 	<div class="col-xs-{{view_width[0].col}}">
-		<textarea 
-		style="width:30%;vertical-align: middle;"
-		placeholder="id"
-		
-		type="text" 
-		ng-model="search.id"
-		ng-enter="add_where_list({field:'id',type:0,value:search.id});search.id=''"
-		></textarea>
-		<textarea 
-		style="width:30%;vertical-align: middle;"
-		placeholder="名稱"
-		style="width:30%;"
-		type="text" 
-		ng-model="search.name"
-		ng-enter="add_where_list({field:'name',type:2,value:'%'+search.name+'%'});search.name=''"
-		></textarea>
-		<select 
-		style="vertical-align: middle;"
-		ng-options="id*1 as name for (id,name) in field_data[fieldNameR['status']].list"
-		ng-model="search.status"
-		ng-change="add_where_list({field:'status',type:0,value:search.status});search.status='';"
-		>
-			<option value="">狀態</option>
-		</select>
+		<div >id:名稱:人數</div>
+		<div >功能</div>
 	</div>
-	
 	<div class="col-xs-{{view_width[1].col}}">
-		<textarea 
-		placeholder="fb_id"
-		type="text" 
-		ng-model="search.fb_id"
-		ng-enter="add_where_list({field:'fb_id',type:0,value:search.fb_id});search.fb_id=''"
-		></textarea>
+		logo
 	</div>
 	<div class="col-xs-{{view_width[2].col}}">
-		<textarea 
-		placeholder="註記"
-		style="width:90%;"
-		type="text" 
-		ng-model="search.comment"
-		ng-enter="add_where_list({field:'comment',type:2,value:'%'+search.comment+'%'});search.comment='';"
-		></textarea>
+		註記
 	</div>
 	<div class="col-xs-{{view_width[3].col}}">
 		<div >
@@ -56,7 +22,6 @@ style="height:70px;"
 			ng-enter="searchTagName(tag);"
 			/>
 		</div>
-		
 	</div>
 	<div class="col-xs-{{view_width[4].col}}">
 		<div >
@@ -95,30 +60,6 @@ style="height:70px;"
 				></select>
 			</div>
 		</div>
-	</div>
-	<div class="col-xs-{{view_width[5].col}}">
-		
-	</div>
-</div>
-<div 
-class="col-xs-12 odd text-center"
-style="height:50px;"
->
-	<div class="col-xs-{{view_width[0].col}}">
-		<div >id:名稱:人數</div>
-		<div >功能</div>
-	</div>
-	<div class="col-xs-{{view_width[1].col}}">
-		logo
-	</div>
-	<div class="col-xs-{{view_width[2].col}}">
-		註記
-	</div>
-	<div class="col-xs-{{view_width[3].col}}">
-		標籤列表
-	</div>
-	<div class="col-xs-{{view_width[4].col}}">
-		粉絲團標籤
 	</div>
 	<div class="col-xs-{{view_width[5].col}}">
 		
