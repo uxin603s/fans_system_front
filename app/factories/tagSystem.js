@@ -76,10 +76,12 @@ angular.module('app')
 			.send("tagSystem",{name:'searchTagName',value:tag.name})
 		tag.name='';
 	}
+	
 	var setMode=function(mode){
 		postMessageHelper
 			.send("tagSystem",{name:'setMode',value:mode})
 	}
+	
 	return {
 		init:init,
 		iframe:iframe,

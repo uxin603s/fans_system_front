@@ -1,8 +1,6 @@
 <div 
 ng-if="list.length"
-style="height:100px;"
-ng-class="$odd?'odd':'even'"
-class="col-xs-12 " 
+class="col-xs-12 row" 
 ng-repeat="item in list"
 >
 	<div class="col-xs-{{view_width[0].col}}">
@@ -10,63 +8,49 @@ ng-repeat="item in list"
 			<a 
 			class="btn btn-primary btn-sm"
 			target="_blank" href="http://facebook.com/{{item.fb_id}}">
-			{{item.id}}:{{item.name}}:{{item.fan_count||0}}
+			{{item.name}}
 			</a>
 		</div>
-		<div>
-			<select 
-			ng-options="id*1 as name for (id,name) in fieldStruct.field[0].list"
-			ng-model="item.status"
-			ng-change="ch({status:item.status},{id:item.id})"
-			></select>
-			<button 
-			ng-click="update_online([item.fb_id])"
-			class="btn btn-primary" 
-			>即時更新</button>
-		</div>
-		<div>
-			last_post:{{item.last_post_time_int*1000| date:'yyyy-MM-dd HH:mm'}}
-		</div>
+		<div 
+		style="display:block;"
+		class="fb-like" 
+		data-href="http://www.facebook.com/{{item.fb_id}}"
+		data-layout="button_count" 
+		data-action="like" 
+		data-size="large" 
+		data-show-faces="false" 
+		data-share="false"
+		></div>
+		
 	</div>
-	<div class="col-xs-{{view_width[1].col}}" ng-init="fb_type">
-		<div ng-if="fb_type">		
-			<div 
-			class="fb-like-box" 
-			data-href="http://www.facebook.com/{{item.fb_id}}" 
-			data-width="270"
-			data-colorscheme="light" 
-			data-show-faces="false" 
-			data-header="true" 
-			data-stream="false" 
-			data-show-border="true"
-			data-adapt-container-width="true"
-			>
-			</div>
-		</div>
-		<div ng-if="!fb_type">
-			<img 
-			style="width:100px;height:100px;"
-			ng-src="https://graph.facebook.com/{{item.fb_id}}/picture?width=100&height=100&type=large"
-			/>
-			<div class="fb-like" 
-			data-href="http://www.facebook.com/{{item.fb_id}}"
-			data-layout="button_count" 
-			data-action="like" 
-			data-size="large" 
-			data-show-faces="false" 
-			data-share="false"
-			></div>
-		</div>
+	<div class="col-xs-{{view_width[1].col}}" >
+		<img 
+		style="display:block;width:70px;height:70px;"
+		ng-src="https://graph.facebook.com/{{item.fb_id}}/picture?width=100&height=100&type=large"
+		/>
 	</div>
 	<div class="col-xs-{{view_width[2].col}}">
+		
+		<select 
+		ng-options="item.id as item.name for item in fieldStruct.field[0].list"
+		ng-model="item.status"
+		ng-change="ch({status:item.status},{id:item.id})"
+		></select>
+		<button 
+		ng-click="update_online([item.fb_id])"
+		class="btn btn-primary" 
+		>即時更新</button>
+		<div ng-if="false">
+			{{item.last_post_time_int*1000| date:'yyyy-MM-dd HH:mm'}}
+		</div>
+	</div>
+	<div class="col-xs-{{view_width[3].col}}">
 		<textarea 
 		ng-model="item.comment"
 		ng-change="text_ch({comment:item.comment},{id:item.id})"
 		></textarea>
-		
 	</div>
-	<div class="col-xs-{{view_width[3].col}}">
-		
+	<div class="col-xs-{{view_width[4].col}}">
 		<div ng-if="tagList[item.id]">
 			<div 
 			style="display:inline-block;"
@@ -98,8 +82,9 @@ ng-repeat="item in list"
 		<div ng-if="!tagList[item.id]">
 			標籤載入中
 		</div>
+		
 	</div>
-	<div class="col-xs-{{view_width[4].col}}">
+	<div class="col-xs-{{view_width[5].col}}">
 		<div ng-if="tagList[item.id]">
 			<button
 			class="btn btn-sm btn-primary" 
@@ -110,9 +95,6 @@ ng-repeat="item in list"
 		<div ng-if="!tagList[item.id]">
 			標籤載入中
 		</div>
-	</div>
-	<div class="col-xs-{{view_width[5].col}}">
-		
 	</div>
 </div>
 <div class="col-xs-12" ng-if="!list.length">

@@ -15,17 +15,17 @@ if(isset($_SESSION['rid'])){
 id="facebook-jssdk" 
 src="//connect.facebook.net/zh_TW/sdk.js"
 ></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/angular.min.js"></script>
-<script src="js/localForage-1.4.2.min.js"></script>
-<script src="js/postMessageHelper/postMessageHelper.js"></script>
+<script src="js/jquery.min.js?t=<?=time();?>"></script>
+<script src="js/angular.min.js?t=<?=time();?>"></script>
+<script src="js/localForage-1.4.2.min.js?t=<?=time();?>"></script>
+<script src="js/postMessageHelper/postMessageHelper.js?t=<?=time();?>"></script>
 <script src="app/module/cache/cache.js?t=<?=time();?>"></script>
 
 <script src="app/app.js?t=<?=time();?>"></script>
 <script>
 angular.module('app')
 .run(['$rootScope','tagSystem',function($rootScope,tagSystem){
-	tagSystem.init("http://tag.cfd888.info/?wid=5");
+	tagSystem.init("http://tag.cfd888.info/?wid=1");
 	$("tag-system").append(tagSystem.iframe);
 	$rootScope.__proto__.tagSystem=tagSystem.data;
 	$rootScope.__proto__.Date=Date;
@@ -37,13 +37,14 @@ angular.module('app')
 <script src="app/components/fansList/fansList.js?t=<?=time();?>"></script>
 
 <script src="app/components/whereList/whereList.js?t=<?=time();?>"></script>
+<script src="app/components/whereList/whereListFunc.js?t=<?=time();?>"></script>
+
 <script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
 <script src="app/directives/ngEnter/ngEnter.js?t=<?=time();?>"></script>
 <script src="app/directives/ngRightClick/ngRightClick.js?t=<?=time();?>"></script>
 <script src="app/directives/sortable/sortable.js?t=<?=time();?>"></script>
 
 
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?t=<?=time();?>">
 <link rel="stylesheet" type="text/css" href="css/index.css?t=<?=time();?>">
 <script>
 FB.init({

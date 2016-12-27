@@ -1,8 +1,8 @@
 angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
-controller:["$scope","tagSystem",function($scope,tagSystem){
-	
+controller:["$scope","tagSystem","whereListFunc",function($scope,tagSystem,whereListFunc){
+	$scope.add_where_list=whereListFunc.add_where_list;
 	$scope.$watch("cache.mode",function(value){
 		tagSystem.setMode(value);
 		$scope.get();
@@ -59,13 +59,12 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 			{
 				enName:'status',
 				name:"狀態",
-				type:'1',
-				list:{
-					"0":"下架",
-					"1":"上架",
-					"2":"申訴",
-					"3":"停權",
-				},
+				list:[
+					{id:0,name:"下架",},
+					{id:1,name:"上架",},
+					{id:2,name:"申訴",},
+					{id:3,name:"停權",},
+				],
 			},
 			{
 				enName:'fan_count',
@@ -206,7 +205,7 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 		},"json")
 	}
 	$scope.text_ch=function(update,where){
-		var timer_name="text_change_timer"+item.id;
+		var timer_name="text_change_timer";
 		for(var i in where){
 			timer_name+=i+":"+where[i]+","
 		}
@@ -262,11 +261,11 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 	
 	$scope.view_width=[
 		{"col":2},
-		{"col":3},
 		{"col":1},
 		{"col":2},
-		{"col":3},
-		{"col":1},
+		{"col":2},
+		{"col":2},
+		{"col":2},
 	]
 	
 	
