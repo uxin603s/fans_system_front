@@ -11,7 +11,13 @@
 	>
 	{{$ctrl.data.field[fieldNameR[item.field]].name}}
 	{{where_list_type_arr[item.type]}}
-	{{$ctrl.data.field[fieldNameR[item.field]].list[item.value] || item.value}}
+	<span ng-if="$ctrl.data.field[fieldNameR[item.field]].type">
+		{{item.value |date:'yyyy-MM-dd HH:mm'}}
+	</span>
+	<span ng-if="!$ctrl.data.field[fieldNameR[item.field]].type">
+		{{$ctrl.data.field[fieldNameR[item.field]].list[item.value].name || item.value}}
+	</span>
+	
 	</button>
 	<button
 	sortable="$ctrl.orderList"
@@ -41,14 +47,20 @@
 	<div style="display:inline-block;">
 		<div ng-if="$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list">
 			<select 
-			ng-options="index as item for (index,item) in $ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list"
+			ng-options="item.id as item.name for item in $ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list"
 			ng-model="$ctrl.data.default.where.value"
 			></select>
 		</div>
 		<div ng-if="!$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].list">
-			<input type="text"
-			ng-model="$ctrl.data.default.where.value"
-			/>
+			<span ng-if="$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].type">
+				
+			</span>
+			<span ng-if="!$ctrl.data.field[fieldNameR[$ctrl.data.default.where.field]].type">
+				<input type="text"
+				ng-model="$ctrl.data.default.where.value"
+				ng-enter="add_where_list($ctrl.data.default.where);$ctrl.data.default.where.value=''"
+				/>
+			</span>
 		</div>
 	</div>
 	<button 
@@ -66,6 +78,6 @@
 	></select>
 	<button 
 	class="btn btn-sm btn-primary"
-	ng-click="add_order_list($ctrl.data.default.order);$ctrl.data.default.order.value=''"
+	ng-click="add_order_list($ctrl.data.default.order);"
 	>加入排序條件</button>
 </div>
