@@ -22,24 +22,15 @@ src="//connect.facebook.net/zh_TW/sdk.js"
 <script src="js/localForage-1.4.2.min.js?t=<?=time();?>"></script>
 <script src="js/postMessageHelper/postMessageHelper.js?t=<?=time();?>"></script>
 <script src="app/module/cache/cache.js?t=<?=time();?>"></script>
+<script src="app/module/whereList/whereList.js?t=<?=time();?>"></script>
+<script src="app/module/tagSystem/tagSystem.js?t=<?=time();?>"></script>
+
 
 <script src="app/app.js?t=<?=time();?>"></script>
-<script>
-angular.module('app')
-.run(['$rootScope','tagSystem',function($rootScope,tagSystem){
-	tagSystem.init("http://tag.cfd888.info/?wid=1&t="+Date.now());
-	$("tag-system").append(tagSystem.iframe);
-	$rootScope.__proto__.tagSystem=tagSystem.data;
-	$rootScope.__proto__.Date=Date;
-	$rootScope.$apply();
-}])
-</script>
-<script src="app/factories/tagSystem.js?t=<?=time();?>"></script>
+
 
 <script src="app/components/fansList/fansList.js?t=<?=time();?>"></script>
 
-<script src="app/components/whereList/whereList.js?t=<?=time();?>"></script>
-<script src="app/components/whereList/whereListFunc.js?t=<?=time();?>"></script>
 
 <script src="app/directives/pagnation/pagnation.js?t=<?=time();?>"></script>
 <script src="app/directives/ngEnter/ngEnter.js?t=<?=time();?>"></script>
@@ -62,11 +53,13 @@ if(window.location.hash){
 </head>
 <body ng-app="app" class="container" style="overflow-y:scroll;">
 	<tag-system 
+	wid="1"
 	ng-show="cache.tag_system_show"
-	class="col-xs-12" 
-	style="height:{{tagSystem.size.h}}px"
 	></tag-system>
-	<input type="checkbox" ng-model="cache.tag_system_show"/>標籤系統
+	<input 
+	type="checkbox" 
+	ng-model="cache.tag_system_show"
+	/>標籤系統
 	<fans-list 
 	ng-if="!cache.not_finish_flag" 
 	></fans-list>

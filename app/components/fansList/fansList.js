@@ -1,8 +1,9 @@
 angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
-controller:["$scope","tagSystem","whereListFunc",function($scope,tagSystem,whereListFunc){
-	
+controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,tagSystem){
+	$scope.mode_list=[{id:1,name:'標籤搜尋'},{id:2,name:'無標籤'},{id:3,name:'有標籤'}]
+	$scope.tagSystem=tagSystem.data;
 	$scope.add_where_list=whereListFunc.add_where_list;
 	$scope.$watch("cache.mode",function(value){
 		tagSystem.setMode(value);
@@ -15,8 +16,6 @@ controller:["$scope","tagSystem","whereListFunc",function($scope,tagSystem,where
 		$scope.idList=value;
 		$scope.get();
 	},1)
-	
-	
 	$scope.cache.tagSearchId || ($scope.cache.tagSearchId=[]);
 	$scope.$watch("cache.tagSearchId",function(value){
 		tagSystem.tagSearchId(value);

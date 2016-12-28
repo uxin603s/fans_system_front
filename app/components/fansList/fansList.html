@@ -7,7 +7,7 @@
 		ng-class="cache.mode==item.id?'btn-danger':'btn-primary'"
 		class="btn btn-sm btn-primary"
 		ng-click="cache.mode==item.id?cache.mode=undefined:cache.mode=item.id"
-		ng-repeat="item in [{id:1,name:'標籤搜尋'},{id:2,name:'無標籤'},{id:3,name:'有標籤'}]"
+		ng-repeat="item in mode_list"
 		>{{item.name}}</button>
 		
 		<button

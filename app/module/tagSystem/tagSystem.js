@@ -1,4 +1,4 @@
-angular.module('app')
+angular.module('tagSystem',[])
 .factory('tagSystem',['$rootScope',function($rootScope){
 	var data={
 		size:{
@@ -49,25 +49,28 @@ angular.module('app')
 		iframe.src=src;
 	}
 	
-	var tagSearchId=function(value){
+	var tagSearchId=function(value){//使用tag搜尋source_id
 		postMessageHelper
 			.send("tagSystem",{name:'tagSearchId',value:value})
 	}
 	
-	var idSearchTag=function(value){
+	var idSearchTag=function(value){//搜尋source_id的tag
 		postMessageHelper
 			.send("tagSystem",{name:'idSearchTag',value:value})
+		//使用後tagList回傳
 	}
-	var addIdRelation=function(id,tag){
+	var addIdRelation=function(id,tag){//建立source_id與tag關聯
 		postMessageHelper
 			.send("tagSystem",{name:'addIdRelation',value:{id:id,name:tag.name}})
 		tag.name='';
+		//使用後tagList回傳
 	}
-	var delIdRelation=function(id,index){
+	var delIdRelation=function(id,index){//刪除source_id與tag關聯
 		postMessageHelper
 			.send("tagSystem",{name:'delIdRelation',value:{id:id,index:index}})
+		//使用後tagList回傳
 	}
-	var chIdRelation=function(id,a,b){
+	var chIdRelation=function(id,a,b){//改變source_id與tag順序
 		postMessageHelper
 			.send("tagSystem",{name:'chIdRelation',value:{id:id,a:a,b:b}})
 	}
@@ -95,3 +98,18 @@ angular.module('app')
 		setMode:setMode,
 	}
 }])
+.component("tagSystem",{
+bindings:{
+	wid:"=",
+},
+templateUrl:'app/module/tagSystem/tagSystem.html?t='+Date.now(),
+controller:["$scope","tagSystem","$rootScope",function($scope,tagSystem,$rootScope){
+	$scope.$ctrl.$onInit=function(){
+		var wid=$scope.$ctrl.wid;
+		tagSystem.init("http://tag.cfd888.info/?wid="+wid+"&t="+Date.now());
+		$("tag-system>div").append(tagSystem.iframe);
+		$rootScope.__proto__.tagSystem=tagSystem.data;
+	}
+	
+}],
+})
