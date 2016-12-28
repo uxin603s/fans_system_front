@@ -40,9 +40,7 @@ ng-repeat="item in list"
 		ng-click="update_online([item.fb_id])"
 		class="btn btn-primary" 
 		>即時更新</button>
-		<div ng-if="false">
-			{{item.last_post_time_int*1000| date:'yyyy-MM-dd HH:mm'}}
-		</div>
+		
 	</div>
 	<div class="col-xs-{{view_width[3].col}}">
 		<textarea 

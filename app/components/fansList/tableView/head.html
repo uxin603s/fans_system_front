@@ -1,6 +1,5 @@
 <div 
 class="col-xs-12 text-center row"
-
 >
 	<div class="col-xs-{{view_width[0].col}}">
 		<textarea 
@@ -15,10 +14,14 @@ class="col-xs-12 text-center row"
 	<div class="col-xs-{{view_width[2].col}}">
 		<select 
 		ng-options="item.id as item.name for item in fieldStruct.field[0].list"
-		ng-model="search.status"
-		ng-change="add_where_list(cache.where_list,{field:'status',type:0,value:search.status},1);" 
+		ng-model="control_where.value"
+		ng-change="add_where_list(cache.where_list,{field:'status',type:0,value:control_where.value},1);" 
 		></select>
-		功能
+		<button
+		ng-if="control_order"
+		class="btn btn-primary"
+		ng-click="control_order.type=(control_order.type*1+1) % 2"
+		>粉絲團排序{{control_order.type?'↓':'↑'}}</button>
 	</div>
 	<div class="col-xs-{{view_width[3].col}}">
 		<textarea 
@@ -43,7 +46,7 @@ class="col-xs-12 text-center row"
 			tpye="text"
 			placeholder="標籤搜粉絲團"
 			ng-model="search.tag" 
-			ng-enter="addSearch(search)"
+			ng-enter="addSearch(search);cache.mode=1;"
 			/>
 		</div>
 		<div >
