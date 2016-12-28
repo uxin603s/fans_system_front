@@ -1,8 +1,10 @@
 <?php
+setcookie("go_to","",time()-3600);
 session_start();
 if(isset($_SESSION['rid'])){
 
 }else{
+	setcookie("go_to",$_SERVER['REQUEST_URI']);
 	header("location:login.php");
 	exit;
 }
@@ -25,7 +27,7 @@ src="//connect.facebook.net/zh_TW/sdk.js"
 <script>
 angular.module('app')
 .run(['$rootScope','tagSystem',function($rootScope,tagSystem){
-	tagSystem.init("http://tag.cfd888.info/?wid=1");
+	tagSystem.init("http://tag.cfd888.info/?wid=1&t="+Date.now());
 	$("tag-system").append(tagSystem.iframe);
 	$rootScope.__proto__.tagSystem=tagSystem.data;
 	$rootScope.__proto__.Date=Date;
@@ -53,6 +55,9 @@ FB.init({
 	xfbml      : true,
 	version    : 'v2.8',
 });
+if(window.location.hash){
+	window.location.href="http://"+window.location.hostname+window.location.pathname;
+}
 </script>
 </head>
 <body ng-app="app" class="container" style="overflow-y:scroll;">

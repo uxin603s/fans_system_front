@@ -2,6 +2,7 @@ angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","tagSystem","whereListFunc",function($scope,tagSystem,whereListFunc){
+	
 	$scope.add_where_list=whereListFunc.add_where_list;
 	$scope.$watch("cache.mode",function(value){
 		tagSystem.setMode(value);
