@@ -61,7 +61,7 @@ class="col-xs-12 text-center row"
 				<select 
 				ng-options="name as name for name in list"
 				ng-model="search.tag"
-				ng-change="addSearch(search)"
+				ng-change="addSearch(search);cache.mode=1;"
 				></select>
 			</div>
 			<div 
@@ -72,7 +72,7 @@ class="col-xs-12 text-center row"
 				<select 
 				ng-options="name as name for name in list"
 				ng-model="search.tag"
-				ng-change="addSearch(search)"
+				ng-change="addSearch(search);cache.mode=1;"
 				></select>
 			</div>
 		</div>
