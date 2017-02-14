@@ -52,14 +52,6 @@ if(window.location.hash){
 </script>
 </head>
 <body ng-app="app" class="container" style="overflow-y:scroll;">
-	<tag-system 
-	wid="1"
-	ng-show="cache.tag_system_show"
-	></tag-system>
-	<input 
-	type="checkbox" 
-	ng-model="cache.tag_system_show"
-	/>標籤系統
 	<fans-list 
 	ng-if="!cache.not_finish_flag" 
 	></fans-list>

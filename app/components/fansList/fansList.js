@@ -2,62 +2,7 @@ angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,tagSystem){
-	$scope.mode_list=[{id:1,name:'標籤搜尋'},{id:2,name:'無標籤'},{id:3,name:'有標籤'}]
-	$scope.tagSystem=tagSystem.data;
-	$scope.add_where_list=whereListFunc.add_where_list;
-	$scope.$watch("cache.mode",function(value){
-		tagSystem.setMode(value);
-		$scope.get();
-	},1)
-	$scope.$watch("tagSystem.tagList",function(value){
-		$scope.tagList=value;
-	},1)
-	$scope.$watch("tagSystem.idList",function(value){
-		$scope.idList=value;
-		$scope.get();
-	},1)
-	$scope.cache.tagSearchId || ($scope.cache.tagSearchId=[]);
-	$scope.$watch("cache.tagSearchId",function(value){
-		if(value.length){
-			tagSystem.tagSearchId(value);
-		}else{
-			$scope.cache.mode=0;
-		}
-	},1);
-	$scope.addSearch=function(search){
- 		if($scope.cache.tagSearchId.indexOf(search.tag)==-1){
-			$scope.cache.tagSearchId.push(search.tag);
-		}
-		search.tag=''
-	}
-	$scope.delSearch=function(index){
-		$scope.cache.tagSearchId.splice(index,1);
-	}
-	$scope.cache.insert_list || ($scope.cache.insert_list=[]);
-	$scope.$watch("tagSystem.insertList",function(value){
-		if(!value)return;
-		$scope.cache.insert_list=value;
-	},1);
-	$scope.cache.customInsertList || ($scope.cache.customInsertList={});
-	$scope.$watch("tagSystem.customInsertList",function(value){
-		if(!value)return;
-		for(var i in value){
-			if(value[i] && value[i].length){
-				$scope.cache.customInsertList[i]=value[i];
-			}else{
-				alert("沒有此標籤")
-			}
-		}
-	},1);
-	$scope.delCustomInsertList=function(name){
-		delete $scope.cache.customInsertList[name];
-	}
-
-	$scope.addTag=tagSystem.addIdRelation;
-	$scope.delTag=tagSystem.delIdRelation;
-	$scope.searchTagName=tagSystem.searchTagName;
 	
-	/*-----------------------*/
 	$scope.fieldStruct={
 		field:[
 			{

@@ -1,23 +1,4 @@
-<div class="col-xs-12" style="min-height:1000px;" >
-	<div 
-		class="col-xs-12  bottom_line"
-		style="height:50px;"
-	>
-		<button 
-		ng-class="cache.mode==item.id?'btn-danger':'btn-primary'"
-		class="btn btn-sm btn-primary"
-		ng-click="cache.mode==item.id?cache.mode=undefined:cache.mode=item.id"
-		ng-repeat="item in mode_list"
-		>{{item.name}}</button>
-		
-		<button
-		ng-if="cache.mode==1"
-		class="btn btn-primary btn-sm"
-		ng-click="delSearch($index)"
-		ng-repeat="tag_name in cache.tagSearchId"
-		>{{tag_name}}</button>
-	</div>
-	
+<div class="col-xs-12" style="min-height:1000px;" >	
 	<div 
 		class="col-xs-12  bottom_line"
 	>	
