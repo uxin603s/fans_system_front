@@ -1,8 +1,8 @@
 angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
-controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,tagSystem){
-	
+controller:["$scope","whereListFunc",function($scope,whereListFunc){
+
 	$scope.fieldStruct={
 		field:[
 			{
@@ -73,31 +73,6 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 			for(var i in $scope.cache.where_list){
 				where_list.push($scope.cache.where_list[i])
 			}
-			if($scope.cache.mode==1){
-				for(var i in $scope.idList){
-					where_list.push({field:'id',type:0,value:$scope.idList[i]})
-				}
-				if(!$scope.idList.length){
-					$scope.message="完成查詢，沒有資料";
-					$scope.$apply();
-					return;
-				}
-			}
-			if($scope.cache.mode==2){
-				for(var i in $scope.idList){
-					where_list.push({field:'id',type:1,value:$scope.idList[i]})
-				}
-			}
-			if($scope.cache.mode==3){
-				for(var i in $scope.idList){
-					where_list.push({field:'id',type:0,value:$scope.idList[i]})
-				}
-				if(!$scope.idList.length){
-					$scope.message="完成查詢，沒有資料";
-					$scope.$apply();
-					return;
-				}
-			}
 			
 			var post_data={
 				func_name:"FansList::getList",
@@ -110,9 +85,6 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 			$.post("ajax.php",post_data,function(res){
 				if(res.status){
 					$scope.list=res.list
-					tagSystem.idSearchTag($scope.list.map(function(val){
-						return val.id;
-					}));					
 				}else{
 					$scope.list=[];
 				}

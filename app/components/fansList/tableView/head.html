@@ -12,7 +12,7 @@ class="col-xs-12 text-center row"
 		logo
 	</div>
 	<div class="col-xs-{{view_width[2].col}}">
-		<select 
+		<select
 		ng-options="item.id as item.name for item in fieldStruct.field[0].list"
 		ng-model="control_where.value"
 		ng-change="add_where_list(cache.where_list,{field:'status',type:0,value:control_where.value},1);" 
@@ -21,7 +21,7 @@ class="col-xs-12 text-center row"
 		ng-if="control_order"
 		class="btn btn-primary"
 		ng-click="control_order.type=(control_order.type*1+1) % 2"
-		>粉絲團排序{{control_order.type?'↓':'↑'}}</button>
+		>粉絲數排序{{control_order.type?'↓':'↑'}}</button>
 	</div>
 	<div class="col-xs-{{view_width[3].col}}">
 		<textarea 
