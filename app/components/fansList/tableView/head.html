@@ -23,58 +23,6 @@ class="col-xs-12 text-center row"
 		ng-click="control_order.type=(control_order.type*1+1) % 2"
 		>粉絲數排序{{control_order.type?'↓':'↑'}}</button>
 	</div>
-	<div class="col-xs-{{view_width[3].col}}">
-		<textarea 
-		placeholder="搜尋註記" 
-		ng-enter="add_where_list(cache.where_list,{field:'comment',type:2,value:'%'+search.comment+'%'},1);search.comment=undefined;" 
-		ng-model="search.comment" 
-		></textarea>
-	</div>
-	<div class="col-xs-{{view_width[4].col}}">
-		<textarea 
-		style="width:90%;"
-		tpye="text"
-		placeholder="搜尋標籤"
-		ng-model="tag.name"
-		ng-enter="searchTagName(tag);"
-		></textarea>
-	</div>
-	<div class="col-xs-{{view_width[5].col}}">
-		<div >
-			<input 
-			style="width:90%;"
-			tpye="text"
-			placeholder="標籤搜粉絲團"
-			ng-model="search.tag" 
-			ng-enter="addSearch(search);cache.mode=1;"
-			/>
-		</div>
-		<div >
-			<div 
-			style="display:inline-block;"
-			ng-repeat="(name,list) in cache.customInsertList"
-			>
-				<button
-				class="btn btn-sm btn-primary"
-				ng-click="delCustomInsertList(name)"
-				>{{name}}:</button>
-				<select 
-				ng-options="name as name for name in list"
-				ng-model="search.tag"
-				ng-change="addSearch(search);cache.mode=1;"
-				></select>
-			</div>
-			<div 
-			style="display:inline-block;"
-			ng-repeat="(name,list) in cache.insert_list"
-			>
-				{{name}}:
-				<select 
-				ng-options="name as name for name in list"
-				ng-model="search.tag"
-				ng-change="addSearch(search);cache.mode=1;"
-				></select>
-			</div>
-		</div>
-	</div>
+
+
 </div>

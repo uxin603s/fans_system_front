@@ -39,6 +39,8 @@ src="//connect.facebook.net/zh_TW/sdk.js"
 
 
 <link rel="stylesheet" type="text/css" href="css/index.css?t=<?=time();?>">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?t=<?=time();?>">
+
 <script>
 FB.init({
 	appId      :339868696395230,
@@ -51,7 +53,7 @@ if(window.location.hash){
 }
 </script>
 </head>
-<body ng-app="app" class="container" style="overflow-y:scroll;">
+<body ng-app="app" class="container-fluid" style="overflow-y:scroll;">
 	<fans-list 
 	ng-if="!cache.not_finish_flag" 
 	></fans-list>

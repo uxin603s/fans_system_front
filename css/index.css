@@ -1,75 +1,10 @@
-
-.col-xs-1{
-	float:left;
-	width:8.3%;
-	box-sizing: border-box;
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+	box-sizing: border-box!important;
+	padding:0!important;
 }
-.col-xs-2{
-	float:left;
-	width:16.6%;
-	box-sizing: border-box;
-}
-.col-xs-3{
-	float:left;
-	width:25%;
-	box-sizing: border-box;
-}
-.col-xs-4{
-	float:left;
-	width:33.3%;
-	box-sizing: border-box;
-}
-.col-xs-5{
-	float:left;
-	width:41.6%;
-	box-sizing: border-box;
-}
-.col-xs-6{
-	float:left;
-	width:50%;
-	box-sizing: border-box;
-}
-.col-xs-7{
-	float:left;
-	width:41.6%;
-	box-sizing: border-box;
-}
-.col-xs-8{
-	float:left;
-	width:58.3%;
-	box-sizing: border-box;
-}
-.col-xs-9{
-	float:left;
-	width:75%;
-	box-sizing: border-box;
-}
-.col-xs-10{
-	float:left;
-	width:83.3%;
-	box-sizing: border-box;
-}
-.col-xs-11{
-	float:left;
-	width:91.6%;
-	box-sizing: border-box;
-}
-.col-xs-12{
-	float:left;
-	width:100%;
-	box-sizing: border-box;
-}
-.container{
-	margin:0 auto;
-	width:1000px;
-	display:block;
-}
-
-
-
-textarea{
-	width:90%;
-	height:80%;
+.row{
+	padding:0!important;
+	margin:0!important;
 }
 
 .bottom_line{
@@ -79,52 +14,15 @@ textarea{
 	border-bottom: 1px solid #000000;
 }
 .row> *{
-	overflow-y: auto;
-	height:100px;
+	!overflow-y: auto;
 	padding:5px;
 	word-wrap:break-word;
-	vertical-align: middle;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	
+	box-sizing: border-box!important;
 }
 
 .row>*:nth-child(even){
 	background:#999;
+	height:100%;
 }
 
-.btn{
-	white-space: normal;
-	display: inline-block;
-	padding: 5px 10px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
-	touch-action: manipulation;
-    cursor: pointer;
-	text-align: center;
-	-webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-	text-decoration:none;
-}
-.btn-danger{
-	color: #fff;
-    background-color: #d9534f;
-    border-color: #d43f3a;
-}
-.btn-primary{
-	color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-}
-
-.btn-success{
-	color:#fff;
-	background-color:#5cb85c;
-	border-color:#4cae4c;
-}
-.btn-info{color:#fff;background-color:#5bc0de;border-color:#46b8da}
