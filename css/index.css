@@ -14,15 +14,17 @@
 	border-bottom: 1px solid #000000;
 }
 .row> *{
-	!overflow-y: auto;
+	border-right: 1px solid #000000;
 	padding:5px;
 	word-wrap:break-word;
-	
+	height:100%;
 	box-sizing: border-box!important;
 }
 
 .row>*:nth-child(even){
-	background:#999;
-	height:100%;
+	!background:#999;
+	
 }
-
+body{
+	background-color:#ddd!important;
+}

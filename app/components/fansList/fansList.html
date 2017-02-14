@@ -23,7 +23,55 @@
 		callback="get"
 		></where-list>
 	</div>
-
+	<div 
+		class="col-xs-6  bottom_line"
+		
+	>	
+		
+		<textarea
+		placeholder="輸入網址或id enter新增"
+		style="width:100px;vertical-align: middle;"
+		ng-model="insert.search"
+		ng-enter="add(insert);insert={};"
+		></textarea>
+		<div 
+		style="display:inline-block;"
+		ng-if="insert.search"
+		>	
+			{{insert.name}}
+			<img 
+			style="width:70px;height:70px;vertical-align: middle;"
+			ng-src="https://graph.facebook.com/{{insert.fb_id}}/picture?width=100&height=100&type=large"
+			/>
+			{{insert.fan_count}}
+			<div 
+			style="vertical-align: middle;"
+			class="fb-like" 
+			data-href="http://www.facebook.com/{{insert.fb_id}}"
+			data-layout="button_count" 
+			data-action="like" 
+			data-size="large" 
+			data-show-faces="false" 
+			data-share="false"
+			></div>
+		</div>
+	</div>
+	<div 
+		class="col-xs-6  bottom_line"
+	>	
+		app_id:
+		<textarea 
+		style="width:250px;vertical-align: middle;"
+		ng-model="AppData.id"
+		ng-enter="setFB(AppData)"
+		></textarea>
+		secret:
+		<textarea 
+		style="width:250px;vertical-align: middle;"
+		ng-model="AppData.secret"
+		ng-enter="setFB(AppData)"
+		></textarea>
+	</div>
 	<div 
 	class="col-xs-12 row"
 	style="height:70px;"
@@ -50,12 +98,16 @@
 			ng-click="control_order.type=(control_order.type*1+1) % 2"
 			>粉絲團排序{{control_order.type?'↓':'↑'}}</button>
 		</div>
+		<div class="col-xs-{{view_width[3].col}}">
+			
+		</div>
 	</div>
 	<div 
 	ng-if="list.length"
 	
 	class="col-xs-12 row" 
 	ng-repeat="item in list"
+	style="height:100px;"
 	>
 		<div class="col-xs-{{view_width[0].col}}">
 			<div>
@@ -78,7 +130,7 @@
 		</div>
 		<div class="col-xs-{{view_width[1].col}}" >
 			<img 
-			style="display:block;width:70px;height:70px;"
+			style="height:100%;"
 			ng-src="https://graph.facebook.com/{{item.fb_id}}/picture?width=100&height=100&type=large"
 			/>
 		</div>
@@ -95,8 +147,13 @@
 			>即時更新</button>
 			
 		</div>
-		
-		
+		<div class="col-xs-{{view_width[3].col}}">
+			<button 
+			class="btn btn-primary btn-sm"
+			ng-repeat="tid in tagRelation[item.id]"
+			>{{tagName[tid]}}
+			</button>
+		</div>
 	</div>
 	<div class="col-xs-12" ng-if="!list.length">
 		沒有資料

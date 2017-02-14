@@ -14,6 +14,7 @@ angular.module('tagSystem',[])
 	iframe.setAttribute("marginheight",0);
 	iframe.setAttribute("scrolling","no");
 	iframe.setAttribute("frameborder",0);
+	// document.body.appendChild(iframe)
 	var source;
 	var timer={};
 	var post_id="post"+(Date.now()+Math.floor(Math.random()*999));
@@ -24,13 +25,13 @@ angular.module('tagSystem',[])
 			postMessageHelper.init("tagSystem",source)
 			postMessageHelper.send("tagSystem")
 			postMessageHelper.receive("tagSystem",function(res){
-				clearTimeout(timer[res.name])
-				timer[res.name]=setTimeout(function(){
+				// clearTimeout(timer[res.name])
+				// timer[res.name]=setTimeout(function(){
 					if(res.name=="post"){
 						$rootScope[post_id][res.value.id]=res.value.value;
 					}
 					$rootScope.$apply();
-				},0)
+				// },0)
 			})
 		}
 		iframe.onload=load
@@ -46,6 +47,7 @@ angular.module('tagSystem',[])
 				watch();
 			}
 		},1);
+		
 	}
 	
 	
@@ -62,12 +64,13 @@ bindings:{
 templateUrl:'app/module/tagSystem/tagSystem.html?t='+Date.now(),
 controller:["$scope","tagSystem",function($scope,tagSystem){
 	$scope.$ctrl.$onInit=function(){
-		var url="http://tag.cfd888.info/api.php";
+		// console.log(1)
+		// var url="http://tag.cfd888.info/api.php";
+		var url="http://192.168.1.2/tag_system_front/api.php";
 		if($scope.$ctrl.accessToken){
 			var access_token=$scope.$ctrl.accessToken;
 			url+="?access_token="+access_token;
 		}
-		
 		tagSystem.init(url);
 		$("tag-system>div").append(tagSystem.iframe);
 		$scope.tagSystem=tagSystem.data;
