@@ -1,4 +1,4 @@
-<div class="col-xs-12" style="min-height:1000px;" >
+<div class="col-xs-12" style="min-height:1000px;"  >
 	<div 
 		class="col-xs-12  bottom_line"
 		style="height:50px;"
@@ -38,6 +38,55 @@
 	order-list="cache.order_list"
 	callback="get"
 	></where-list>
+	<div 
+		class="col-xs-12  bottom_line"
+		style="height:70px;"
+	>	
+		
+		<textarea
+		placeholder="輸入網址或id enter新增"
+		style="width:100px;vertical-align: middle;"
+		ng-model="insert.search"
+		ng-enter="add(insert);insert={};"
+		></textarea>
+		<div 
+		style="display:inline-block;"
+		ng-if="insert.search"
+		>	
+			{{insert.name}}
+			<img 
+			style="width:70px;height:70px;vertical-align: middle;"
+			ng-src="https://graph.facebook.com/{{insert.fb_id}}/picture?width=100&height=100&type=large"
+			/>
+			{{insert.fan_count}}
+			<div 
+			style="vertical-align: middle;"
+			class="fb-like" 
+			data-href="http://www.facebook.com/{{insert.fb_id}}"
+			data-layout="button_count" 
+			data-action="like" 
+			data-size="large" 
+			data-show-faces="false" 
+			data-share="false"
+			></div>
+		</div>
+	</div>
+	<div 
+		class="col-xs-12  bottom_line"
+	>	
+		app_id:
+		<textarea 
+		style="width:250px;vertical-align: middle;"
+		ng-model="AppData.id"
+		ng-enter="setFB(AppData)"
+		></textarea>
+		secret:
+		<textarea 
+		style="width:250px;vertical-align: middle;"
+		ng-model="AppData.secret"
+		ng-enter="setFB(AppData)"
+		></textarea>
+	</div>
 	<div ng-include="'app/components/fansList/tableView/head.html?t='+Date.now"></div>
 	<div ng-include="'app/components/fansList/tableView/row.html?t='+Date.now"></div>
 </div>

@@ -1,6 +1,6 @@
 <?php
-setcookie("go_to","",time()-3600);
 session_start();
+setcookie("go_to","",time()-3600);
 if(isset($_SESSION['rid'])){
 
 }else{

@@ -50,11 +50,7 @@ ng-repeat="item in list"
 	</div>
 	<div class="col-xs-{{view_width[4].col}}">
 		<div ng-if="tagList[item.id]">
-			<textarea
-				placeholder="新增自訂標籤"
-				ng-enter="addTag(item.id,tag);"
-				ng-model="tag.name"
-			></textarea>
+			
 			<div 
 			style="display:inline-block;"
 			ng-repeat="(name,list) in cache.customInsertList"
@@ -80,6 +76,11 @@ ng-repeat="item in list"
 				ng-change="addTag(item.id,tag);"
 				></select>
 			</div>
+			<textarea
+				placeholder="新增自訂標籤"
+				ng-enter="addTag(item.id,tag);"
+				ng-model="tag.name"
+			></textarea>
 		</div>
 		<div ng-if="!tagList[item.id]">
 			標籤載入中

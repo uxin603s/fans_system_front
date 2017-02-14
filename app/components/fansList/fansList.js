@@ -12,9 +12,13 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 	$scope.$watch("tagSystem.tagList",function(value){
 		$scope.tagList=value;
 	},1)
+	
 	$scope.$watch("tagSystem.idList",function(value){
+		// console.log(value)
 		$scope.idList=value;
-		$scope.get();
+		if($scope.cache.mode){
+			$scope.get();
+		}
 	},1)
 	$scope.cache.tagSearchId || ($scope.cache.tagSearchId=[]);
 	$scope.$watch("cache.tagSearchId",function(value){
@@ -119,6 +123,7 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 	},1)
 	
 	$scope.get=function(){
+		// if(!$scope.get_sw)return
 		$scope.list=[];
 		$scope.message="查詢中...";
 		clearTimeout($scope.get_timer);
@@ -128,7 +133,9 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 			for(var i in $scope.cache.where_list){
 				where_list.push($scope.cache.where_list[i])
 			}
+			
 			if($scope.cache.mode==1){
+				console.log($scope.cache.mode,$scope.idList)
 				for(var i in $scope.idList){
 					where_list.push({field:'id',type:0,value:$scope.idList[i]})
 				}
@@ -169,6 +176,7 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 						return val.id;
 					}));					
 				}else{
+					if(res.reload)location.reload();
 					$scope.list=[];
 				}
 
@@ -213,6 +221,7 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 				$scope.message="修改成功!!!"
 			}else{
 				$scope.message="修改失敗!!!"
+				if(res.reload)location.reload();
 			}
 			$scope.$apply();
 		},"json")
@@ -256,6 +265,8 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 					});
 				}
 				
+			}else{
+				if(res.reload)location.reload();
 			}
 			if(res.failIds && res.failIds.length){
 				for(var i in res.failIds){
@@ -275,11 +286,67 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 	$scope.view_width=[
 		{"col":2},
 		{"col":1},
-		{"col":2},
-		{"col":2},
-		{"col":2},
-		{"col":2},
+		{"col":1},
+		{"col":1},
+		{"col":4},
+		{"col":3},
 	]
+	
+	$scope.getFB=function(){
+		var post_data={
+			func_name:"FansList::getFB",
+		}
+		$.post("ajax.php",post_data,function(res){
+			$scope.AppData=res;
+			$scope.$apply();
+		},"json")
+	}
+	$scope.getFB();
+	$scope.setFB=function(arg){
+		var post_data={
+			func_name:"FansList::setFB",
+			arg:arg,
+		}
+		$.post("ajax.php",post_data,function(res){
+			$scope.AppData=arg;
+			$scope.$apply();
+		},"json")
+	}
+	$scope.insert={
+		// search:"https://www.facebook.com/justfun00/",
+	}
+	$scope.$watch("insert.search",function(search){
+		if(!search)return;
+		search.toString().replace("https://www.facebook.com/","").replace("/","").match(/(\w+)/)
+		var search=RegExp.$1;
+		delete $scope.insert.fb_id
+		delete $scope.insert.name
+		
+		clearTimeout($scope.preview_fb_id_timer);
+		$scope.preview_fb_id_timer=setTimeout(function(){
+			FB.api("/"+search+"?fields=id,name,fan_count&access_token="+$scope.AppData.id+"|"+$scope.AppData.secret,function(res){//
+				$scope.insert.fb_id=res.id;
+				$scope.insert.name=res.name;
+				$scope.insert.fan_count=res.fan_count;
+				
+				$scope.$apply(function(){
+					setTimeout(function(){
+						FB.XFBML.parse();
+					},1000)
+				});
+			})
+		},500)
+	},1)
+	$scope.add=function(arg){
+		var post_data={
+			func_name:"FansList::insert",
+			arg:arg,
+		}
+		$.post("ajax.php",post_data,function(res){
+			// console.log(res)
+			$scope.$apply();
+		},"json")
+	}
 	
 	
 }],
