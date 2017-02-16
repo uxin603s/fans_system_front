@@ -2,126 +2,8 @@ angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,tagSystem){
+	$scope.searchTag=tagSystem.searchTag;
 	
-	$scope.tagName={};
-	var getWebTagType=function(){
-		return new Promise(function(resolve,reject){
-			var post_data={
-				func_name:"WebTagType::getList",
-				arg:{
-					where_list:[
-						{field:'wid',type:0,value:1},
-					],
-				}
-			}
-			tagSystem.post(post_data,function(res){
-				
-				// console.log(res)
-				if(res.status){
-					var tids=res.list.map(function(val){
-						return val.tid;
-					})
-					resolve(tids);
-				}else{
-					
-				}
-			});
-		})
-		
-	}
-	var getTagLevel=function(tids){
-		return new Promise(function(resolve,reject){
-			var where_list=[]
-			for(var i in tids){
-				where_list.push({field:'tid',type:0,value:tids[i]})
-			}
-			
-			var post_data={
-				func_name:"TagLevel::getList",
-				arg:{
-					where_list:where_list,
-				}
-			}
-			tagSystem.post(post_data,function(res){
-				console.log(res)
-				// if(res.status){
-					// $scope.tagTreeName=res.tagName;
-					// $scope.tagTree=res.data;
-				// }
-			});
-		})
-	}
-	
-	
-	getWebTagType()
-	.then(function(tids){
-		// console.log(tids)
-		return getTagLevel(tids);
-	})
-	
-	var getTagRelation=function(callback){
-		var post_data={
-			func_name:"TagRelation::getList",
-			arg:{
-				wid:1,
-			}
-		}
-		tagSystem.post(post_data,function(res){
-			console.log(res)
-		});
-	}
-	
-	var getTagName=function(tids){
-		var where_list=[];
-		for(var i in tids){
-			where_list.push({field:'id',type:0,value:tids[i]})
-		}
-		var post_data={
-			func_name:"TagName::getList",
-			arg:{
-				where_list:where_list
-			}
-		}
-		tagSystem.post(post_data,function(res){
-			if(res.status){
-				for(var i in res.list){
-					var id=res.list[i].id;
-					var name=res.list[i].name;
-					$scope.tagName[id]=name;
-				}
-			}
-		})
-	}
-	var getWebRelation=function(ids){
-		var where_list=[];
-		where_list.push({field:'wid',type:0,value:1})
-		for(var i in ids){
-			where_list.push({field:'source_id',type:0,value:ids[i]})
-		}
-		var post_data={
-			func_name:"WebRelation::getList",
-			arg:{
-				where_list:where_list,
-			}
-		}
-		tagSystem.post(post_data,function(res){
-			var tids=[];
-			$scope.tagRelation={};
-			if(res.status){
-				for(var i in res.list){
-					var source_id=res.list[i].source_id
-					var tid=res.list[i].tid
-					tids.push(tid);
-					if(!$scope.tagRelation[source_id]){
-						$scope.tagRelation[source_id]={};
-					}
-					$scope.tagRelation[source_id][tid]=tid;
-				}
-				getTagName(tids)
-			}
-		});
-	}
-	// get_tag_relation();
 	$scope.$watch("insert.search",function(search){
 		if(!search)return;
 		search.toString().replace("https://www.facebook.com/","").replace("/","").match(/(\w+)/)
@@ -209,6 +91,11 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 	}
 	
 	/*-----------------------*/
+	$scope.cache.search_tid || ($scope.cache.search_tid={
+		result:[],
+		required:[],
+		optional:[],
+	})
 	$scope.cache.where_list || ($scope.cache.where_list=[{field:'status',type:0,value:1}]);
 	$scope.cache.limit || ($scope.cache.limit={page:0,count:10,total_count:0});
 	$scope.cache.order_list || ($scope.cache.order_list=[{field:'fan_count',type:1}]);
@@ -250,7 +137,6 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 					$scope.list=[];
 				}
 				
-				getWebRelation(res.list.map(function(val){return val.id}));
 				$scope.message="完成查詢"
 				$scope.cache.limit.total_count=res.total_count;
 				

@@ -1,5 +1,7 @@
 <div class="col-xs-12"  >	
-	<tag-system></tag-system>
+	<tag-system 
+	wid="1"
+	></tag-system>
 	<div 
 		class="col-xs-12  bottom_line"
 	>	
@@ -16,18 +18,29 @@
 	<div 
 		class="col-xs-12  bottom_line"
 	>	
-		<where-list
-		data="fieldStruct"
-		where-list="cache.where_list"
-		order-list="cache.order_list"
-		callback="get"
-		></where-list>
+		<div 
+			class="col-xs-6 "
+		>	
+			<where-list
+			data="fieldStruct"
+			where-list="cache.where_list"
+			order-list="cache.order_list"
+			callback="get"
+			></where-list>
+		</div>
+		<div 
+			class="col-xs-6 "
+		>
+			<button 
+			class="btn btn-primary btn-sm"
+			ng-click="searchTag(cache.search_tid,get)"
+			>以標籤搜尋粉絲團</button>
+			
+		</div>
 	</div>
 	<div 
 		class="col-xs-6  bottom_line"
-		
 	>	
-		
 		<textarea
 		placeholder="輸入網址或id enter新增"
 		style="width:100px;vertical-align: middle;"
@@ -94,7 +107,7 @@
 			></select>
 			<button
 			ng-if="control_order"
-			class="btn btn-primary"
+			class="btn btn-primary btn-sm"
 			ng-click="control_order.type=(control_order.type*1+1) % 2"
 			>粉絲團排序{{control_order.type?'↓':'↑'}}</button>
 		</div>
@@ -143,16 +156,16 @@
 			></select>
 			<button 
 			ng-click="update_online([item.fb_id])"
-			class="btn btn-primary" 
+			class="btn btn-primary btn-sm" 
 			>即時更新</button>
+			
 			
 		</div>
 		<div class="col-xs-{{view_width[3].col}}">
-			<button 
-			class="btn btn-primary btn-sm"
-			ng-repeat="tid in tagRelation[item.id]"
-			>{{tagName[tid]}}
-			</button>
+			<source-tag 
+			id="item.id" 
+			name="'正在編輯--'+item.name+'--粉絲團標籤'"
+			><source-tag>
 		</div>
 	</div>
 	<div class="col-xs-12" ng-if="!list.length">

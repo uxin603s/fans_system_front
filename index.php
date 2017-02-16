@@ -21,9 +21,16 @@ src="//connect.facebook.net/zh_TW/sdk.js"
 <script src="js/angular.min.js?t=<?=time();?>"></script>
 <script src="js/localForage-1.4.2.min.js?t=<?=time();?>"></script>
 <script src="js/postMessageHelper/postMessageHelper.js?t=<?=time();?>"></script>
-<script src="app/module/cache/cache.js?t=<?=time();?>"></script>
-<script src="app/module/whereList/whereList.js?t=<?=time();?>"></script>
-<script src="app/module/tagSystem/tagSystem.js?t=<?=time();?>"></script>
+<script src="app/modules/cache/cache.js?t=<?=time();?>"></script>
+<script src="app/modules/whereList/whereList.js?t=<?=time();?>"></script>
+
+<script src="app/modules/tagSystem/tagSystem.js?t=<?=time();?>"></script>
+
+<script src="app/modules/tagSystem/components/sourceTag/sourceTag.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/components/tagLevel/tagLevel.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/components/tagType/tagType.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/components/tagRelation/tagRelation.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/factories/tagSystem.js?t=<?=time();?>"></script>
 
 
 <script src="app/app.js?t=<?=time();?>"></script>

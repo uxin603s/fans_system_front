@@ -48,7 +48,7 @@ bindings:{
 	orderList:'=',
 	callback:'=',
 },
-templateUrl:'app/module/whereList/whereList.html?t='+Date.now(),
+templateUrl:'app/modules/whereList/whereList.html?t='+Date.now(),
 controller:["$scope","whereListFunc",function($scope,whereListFunc){
 	$scope.where_list_type_arr=["等於","不等於","包含","不包含","大於","小於",];
 	$scope.order_list_type_arr=["↑","↓"];
