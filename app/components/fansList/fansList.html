@@ -15,58 +15,31 @@
 		callback="get" 
 		></pagnation>
 	</div>
-	<div 
-		class="col-xs-12  bottom_line"
-	>	
-		<div 
-			class="col-xs-6 "
-		>	
-			<where-list
-			data="fieldStruct"
-			where-list="cache.where_list"
-			order-list="cache.order_list"
-			callback="get"
-			></where-list>
-		</div>
-		<div 
-			class="col-xs-6 "
-		>
-			<button 
-			class="btn btn-primary btn-sm"
-			ng-click="searchTag(cache.search_tid,get)"
-			>以標籤搜尋粉絲團</button>
-			
-		</div>
-	</div>
+	
 	<div 
 		class="col-xs-6  bottom_line"
 	>	
 		<textarea
-		placeholder="輸入網址或id enter新增"
-		style="width:100px;vertical-align: middle;"
-		ng-model="insert.search"
-		ng-enter="add(insert);insert={};"
+		style="vertical-align: middle;"
+		placeholder="輸入粉絲團網址後enter搜尋"
+		
+		ng-model="fb_id"
+		ng-enter="get_fan_data(fb_id,insert);"
 		></textarea>
 		<div 
 		style="display:inline-block;"
-		ng-if="insert.search"
+		ng-if="insert.fb_id"
 		>	
 			{{insert.name}}
 			<img 
-			style="width:70px;height:70px;vertical-align: middle;"
+			style="width:50px;height:50px;vertical-align: middle;"
 			ng-src="https://graph.facebook.com/{{insert.fb_id}}/picture?width=100&height=100&type=large"
 			/>
 			{{insert.fan_count}}
-			<div 
-			style="vertical-align: middle;"
-			class="fb-like" 
-			data-href="http://www.facebook.com/{{insert.fb_id}}"
-			data-layout="button_count" 
-			data-action="like" 
-			data-size="large" 
-			data-show-faces="false" 
-			data-share="false"
-			></div>
+			<button
+			class="btn btn-primary"
+			ng-click="add(insert)"
+			>新增粉絲團</button>
 		</div>
 	</div>
 	<div 
@@ -92,27 +65,36 @@
 		<div class="col-xs-{{view_width[0].col}}">
 			<textarea 
 			placeholder="搜尋名稱" 
-			ng-enter="add_where_list(cache.where_list,{field:'name',type:2,value:'%'+search.name+'%'},1);search.name=undefined;" 
+			ng-enter="add_where_name(search.name);search.name=undefined;" 
 			ng-model="search.name" 
 			></textarea>
+			<button 
+			class="btn btn-primary btn-sm"
+			ng-click="del_where_name($index)"
+			ng-repeat="item in cache.where_name"
+			>{{item}}</button>
+			
 		</div>
 		<div class="col-xs-{{view_width[1].col}}">
 			logo
 		</div>
 		<div class="col-xs-{{view_width[2].col}}">
+			狀態
 			<select 
-			ng-options="item.id as item.name for item in fieldStruct.field[0].list"
-			ng-model="control_where.value"
-			ng-change="add_where_list(cache.where_list,{field:'status',type:0,value:control_where.value},1);" 
+			ng-options="item.id as item.name for item in status_arr"
+			ng-model="cache.where_status.value"
 			></select>
+			排序
 			<button
-			ng-if="control_order"
 			class="btn btn-primary btn-sm"
-			ng-click="control_order.type=(control_order.type*1+1) % 2"
-			>粉絲團排序{{control_order.type?'↓':'↑'}}</button>
+			ng-click="cache.order_list.type=(cache.order_list.type*1+1) % 2"
+			>粉絲數{{cache.order_list.type?'↓':'↑'}}</button>
 		</div>
 		<div class="col-xs-{{view_width[3].col}}">
-			
+			<search-tag 
+			data="cache.search_tid" 
+			callback="get"
+			></search-tag>
 		</div>
 	</div>
 	<div 
@@ -123,6 +105,7 @@
 	style="height:100px;"
 	>
 		<div class="col-xs-{{view_width[0].col}}">
+			
 			<div>
 				<a 
 				class="btn btn-primary btn-sm"
@@ -130,16 +113,12 @@
 				{{item.name}}
 				</a>
 			</div>
-			<div 
-			style="display:block;"
-			class="fb-like" 
-			data-href="http://www.facebook.com/{{item.fb_id}}"
-			data-layout="button_count" 
-			data-action="like" 
-			data-size="large" 
-			data-show-faces="false" 
-			data-share="false"
-			></div>
+			<div>
+			fb_id:{{item.fb_id}}
+			</div>
+			<div>
+			粉絲數量:{{item.fan_count}}
+			</div>
 		</div>
 		<div class="col-xs-{{view_width[1].col}}" >
 			<img 
@@ -148,9 +127,9 @@
 			/>
 		</div>
 		<div class="col-xs-{{view_width[2].col}}">
-			
+			狀態
 			<select 
-			ng-options="item.id as item.name for item in fieldStruct.field[0].list"
+			ng-options="item.id as item.name for item in status_arr"
 			ng-model="item.status"
 			ng-change="ch({status:item.status},{id:item.id})"
 			></select>
@@ -158,8 +137,6 @@
 			ng-click="update_online([item.fb_id])"
 			class="btn btn-primary btn-sm" 
 			>即時更新</button>
-			
-			
 		</div>
 		<div class="col-xs-{{view_width[3].col}}">
 			<source-tag 

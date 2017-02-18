@@ -1,4 +1,4 @@
-angular.module("app",["cache","whereList","tagSystem"])
+angular.module("app",["cache","tagSystem"])
 .config(['$compileProvider',function($compileProvider){
 	$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
 }])

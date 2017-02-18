@@ -1,31 +1,44 @@
 angular.module('app').component("fansList",{
 bindings:{},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
-controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,tagSystem){
-	$scope.searchTag=tagSystem.searchTag;
+controller:["$scope","tagSystem",function($scope,tagSystem){
+	$scope.insert={};
+	$scope.get_fan_data=function(fb_id,item){
+		// console.log(fb_id,item)
+		FB.api("/"+fb_id+"?fields=id,name,fan_count&access_token="+$scope.AppData.id+"|"+$scope.AppData.secret,function(res){//
+			if(res.error){
+				console.log(res.error);
+				// for(var i in item){
+					// delete item[i];
+				// }
+				// error && error();
+			}else{
+				item.fb_id=res.id;
+				item.name=res.name;
+				item.fan_count=res.fan_count;
+			}
+			$scope.$apply();
+		})
+	}
+	$scope.add=function(arg){
+		if(arg.fb_id){
+			fb_id
+			return
+		}
+		var post_data={
+			func_name:"FansList::insert",
+			arg:arg,
+		}
+		$.post("ajax.php",post_data,function(res){
+			// console.log(res)
+			if(res.status){
+				res.insert.status=0
+				$scope.list.unshift(res.insert);
+				$scope.$apply();
+			}
+		},"json")
+	}
 	
-	$scope.$watch("insert.search",function(search){
-		if(!search)return;
-		search.toString().replace("https://www.facebook.com/","").replace("/","").match(/(\w+)/)
-		var search=RegExp.$1;
-		delete $scope.insert.fb_id
-		delete $scope.insert.name
-		
-		clearTimeout($scope.preview_fb_id_timer);
-		$scope.preview_fb_id_timer=setTimeout(function(){
-			FB.api("/"+search+"?fields=id,name,fan_count&access_token="+$scope.AppData.id+"|"+$scope.AppData.secret,function(res){//
-				$scope.insert.fb_id=res.id;
-				$scope.insert.name=res.name;
-				$scope.insert.fan_count=res.fan_count;
-				
-				$scope.$apply(function(){
-					setTimeout(function(){
-						FB.XFBML.parse();
-					},1000)
-				});
-			})
-		},500)
-	},1)
 	$scope.getFB=function(){
 		var post_data={
 			func_name:"FansList::getFB",
@@ -46,88 +59,86 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 			$scope.$apply();
 		},"json")
 	}
-	$scope.fieldStruct={
-		field:[
-			{
-				enName:'status',
-				name:"狀態",
-				list:[
-					{id:0,name:"下架",},
-					{id:1,name:"上架",},
-					{id:2,name:"申訴",},
-					{id:3,name:"停權",},
-				],
-			},
-			{
-				enName:'fan_count',
-				name:"粉絲數量",
-			},
-			{
-				enName:'last_post_time_int',
-				name:"最後PO文時間",
-			},
-			{
-				enName:'id',
-				name:"id",
-			},
-			{
-				enName:'fb_id',
-				name:"FB ID",
-			},
-			{
-				enName:'comment',
-				name:"註記",
-			},
-			{
-				enName:'name',
-				name:"名稱",
-			}
-		],
-		order:['fan_count'],
-		default:{
-			where:{field:'status',type:"0"},
-			order:{field:'fan_count',type:"0"},
-		}
-	}
+	$scope.status_arr=[
+		{id:0,name:"下架",},
+		{id:1,name:"上架",},
+		{id:2,name:"申訴",},
+		{id:3,name:"停權",},
+	]
 	
 	/*-----------------------*/
-	$scope.cache.search_tid || ($scope.cache.search_tid={
-		result:[],
-		required:[],
-		optional:[],
-	})
-	$scope.cache.where_list || ($scope.cache.where_list=[{field:'status',type:0,value:1}]);
+	$scope.cache.search_tid || ($scope.cache.search_tid={})
+	$scope.cache.search_tid.result || ($scope.cache.search_tid.result=[])
+	$scope.cache.search_tid.required || ($scope.cache.search_tid.required=[])
+	$scope.cache.search_tid.optional || ($scope.cache.search_tid.optional=[])
+	$scope.cache.search_tid.tmp || ($scope.cache.search_tid.tmp=[])
+	
 	$scope.cache.limit || ($scope.cache.limit={page:0,count:10,total_count:0});
-	$scope.cache.order_list || ($scope.cache.order_list=[{field:'fan_count',type:1}]);
+	$scope.cache.where_name || ($scope.cache.where_name=[])
+	$scope.cache.where_status || ($scope.cache.where_status={field:'status',type:0,value:1})
 	
-	$scope.$watch("cache.order_list",function(value){
-		$scope.control_order=value.find(function(val){
-			return val.field=="fan_count";
-		})
+	$scope.cache.order_list || ($scope.cache.order_list={field:'fan_count',type:1})
+	$scope.$watch("cache.where_status",function(status){
+		$scope.get();
 	},1)
-	$scope.$watch("cache.where_list",function(value){
-		$scope.control_where=value.find(function(val){
-			return val.field=="status";
-		})
+	$scope.$watch("cache.order_list",function(status){
+		$scope.get();
 	},1)
 	
+	$scope.add_where_name=function(name){
+		if($scope.cache.where_name.indexOf(name)==-1){
+			$scope.cache.where_name.push(name)
+			$scope.get();
+		}
+	}
+	$scope.del_where_name=function(index){
+		$scope.cache.where_name.splice(index,1);
+		$scope.get();
+	}
 	$scope.get=function(){
 		$scope.list=[];
 		$scope.message="查詢中...";
 		clearTimeout($scope.get_timer);
 		$scope.get_timer=setTimeout(function(){
-			
-			var where_list=[];
-			for(var i in $scope.cache.where_list){
-				where_list.push($scope.cache.where_list[i])
+			var order_list=[];
+			if($scope.cache.order_list){
+				order_list.push($scope.cache.order_list)
 			}
-			
+			var where_list=[];
+			if($scope.cache.where_status){
+				where_list.push($scope.cache.where_status)
+			}
+			for(var i in $scope.cache.where_name){
+				var name=$scope.cache.where_name[i];
+				where_list.push({field:'name',type:2,value:"%"+name+"%"});
+			}
+			// console.log($scope.cache.search_tid)
+			if($scope.cache.search_tid.required.length+$scope.cache.search_tid.optional.length){
+				
+				if($scope.cache.search_tid.result.length){
+					for(var i in $scope.cache.search_tid.result){
+						var id=$scope.cache.search_tid.result[i]
+						where_list.push({
+							field:"id",
+							type:"0",
+							value:id,
+						})
+					}
+				}else{
+					$scope.cache.limit.total_count=0;
+					$scope.list=[];
+					$scope.message="完成查詢"
+					$scope.$apply();
+					return
+				}
+				
+			}
 			var post_data={
 				func_name:"FansList::getList",
 				arg:{
 					where_list:where_list,
 					limit:$scope.cache.limit,
-					order_list:$scope.cache.order_list,
+					order_list:order_list,
 				},
 			}
 			$.post("ajax.php",post_data,function(res){
@@ -136,21 +147,31 @@ controller:["$scope","whereListFunc","tagSystem",function($scope,whereListFunc,t
 				}else{
 					$scope.list=[];
 				}
-				
+				for(var i in res.list){
+					$scope.get_fan_data(res.list[i].fb_id,res.list[i]);
+				}
 				$scope.message="完成查詢"
 				$scope.cache.limit.total_count=res.total_count;
 				
 				
-				$scope.$apply(function(){
-					setTimeout(function(){
-						FB.XFBML.parse();
-					},1000)
-				});
-				
+				$scope.$apply();
+				// function(){
+					// setTimeout(function(){
+						// FB.XFBML.parse();
+					// },1000)
+				// }
 			},"json")
 			
 		},500)
 	}
+	
+	$scope.$watch("cache.search_tid.result",$scope.get,1);
+	$scope.$watch("cache.search_tid.required",$scope.get,1);
+	$scope.$watch("cache.search_tid.optional",$scope.get,1);
+	// $scope.$watch("cache.search_tid.result",function(dd){
+		// console.log(dd)
+	// },1);
+	
 	$scope.ch=function(update,where,callback){
 		$scope.message="修改中...";
 		var post_data={

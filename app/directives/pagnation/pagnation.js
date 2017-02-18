@@ -21,7 +21,8 @@ angular.module("app").directive("pagnation",[function() {
 						}
 						$scope.page_arr=page_arr;
 					}
-					if($scope.data.page>$scope.page_count){
+					
+					if($scope.data.page>$scope.page_count-1){
 						$scope.data.page=0;
 					}
 					$scope.$apply();
@@ -39,7 +40,9 @@ angular.module("app").directive("pagnation",[function() {
 				if($scope.page_end > $scope.page_count){
 					$scope.page_start-=$scope.page_end-$scope.page_count;
 				}
-				
+				if($scope.data.page>$scope.page_count){
+					$scope.data.page=0;
+				}
 				$scope.callback && $scope.callback();
 			});
 			

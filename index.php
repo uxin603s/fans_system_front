@@ -22,10 +22,10 @@ src="//connect.facebook.net/zh_TW/sdk.js"
 <script src="js/localForage-1.4.2.min.js?t=<?=time();?>"></script>
 <script src="js/postMessageHelper/postMessageHelper.js?t=<?=time();?>"></script>
 <script src="app/modules/cache/cache.js?t=<?=time();?>"></script>
-<script src="app/modules/whereList/whereList.js?t=<?=time();?>"></script>
 
 <script src="app/modules/tagSystem/tagSystem.js?t=<?=time();?>"></script>
 
+<script src="app/modules/tagSystem/components/searchTag/searchTag.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/sourceTag/sourceTag.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/tagLevel/tagLevel.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/tagType/tagType.js?t=<?=time();?>"></script>
