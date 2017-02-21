@@ -1,5 +1,7 @@
 angular.module('app').component("fansList",{
-bindings:{},
+bindings:{
+	url:"=",
+},
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","tagSystem",function($scope,tagSystem){
 	$scope.insert={};
@@ -75,7 +77,7 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 	
 	$scope.cache.limit || ($scope.cache.limit={page:0,count:10,total_count:0});
 	$scope.cache.where_name || ($scope.cache.where_name=[])
-	$scope.cache.where_status || ($scope.cache.where_status={field:'status',type:0,value:1})
+	$scope.cache.where_status || ($scope.cache.where_status={field:'status',type:0,value:1,sw:0})
 	
 	$scope.cache.order_list || ($scope.cache.order_list={field:'fan_count',type:1})
 	$scope.$watch("cache.where_status",function(status){
@@ -105,7 +107,7 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 				order_list.push($scope.cache.order_list)
 			}
 			var where_list=[];
-			if($scope.cache.where_status){
+			if($scope.cache.where_status.sw){
 				where_list.push($scope.cache.where_status)
 			}
 			for(var i in $scope.cache.where_name){
@@ -212,58 +214,8 @@ controller:["$scope","tagSystem",function($scope,tagSystem){
 		$scope[timer_name]=setTimeout(function(){
 			$scope.ch(update,where)
 		},500)
-	}
-		
-	$scope.update_online=function(ids){
-		var post_data={
-			func_name:"FansList::getOnline",
-			arg:{
-				ids:ids,
-			},
-		}
-		$.post("ajax.php",post_data,function(res){
-			if(res.status){
-				for(var i in res.list){					
-					var update={
-						fan_count:res.list[i].fan_count,
-						name:res.list[i].name,
-					}
-					if(res.list[i].posts){
-						update.last_post_time_int=new Date(res.list[i].posts.data[0].created_time).valueOf()/1000
-					}
-
-					var where={
-						fb_id:res.list[i].id,
-					}
-					$scope.ch(update,where,function(item,update,where){
-						if(item.status==2 || item.status==3){
-							update.status=0;
-						}
-					});
-				}
-				
-			}
-			if(res.failIds && res.failIds.length){
-				for(var i in res.failIds){
-					var update={
-						status:2,
-					}
-					var where={
-						fb_id:res.failIds[i],
-					}
-					$scope.ch(update,where);
-				}
-			}
-			
-		},"json")
-	}
+	}			
 	
-	$scope.view_width=[
-		{"col":2},
-		{"col":2},
-		{"col":2},
-		{"col":6},
-	]
 	
 }],
 })

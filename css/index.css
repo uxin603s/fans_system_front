@@ -3,10 +3,12 @@
 	padding:0!important;
 }
 .row{
-	padding:0!important;
 	margin:0!important;
+	padding:0!important;
 }
-
+.container-fluid{
+	padding:0!important;
+}
 .bottom_line{
 	border-bottom: 1px solid #000000;
 }

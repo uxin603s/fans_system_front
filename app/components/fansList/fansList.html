@@ -1,6 +1,7 @@
 <div class="col-xs-12"  >	
 	<tag-system 
 	wid="1"
+	url="$ctrl.url"
 	></tag-system>
 	<div 
 		class="col-xs-12  bottom_line"
@@ -60,37 +61,47 @@
 	</div>
 	<div 
 	class="col-xs-12 row"
-	style="height:70px;"
+	style="height:100px;"
 	>
-		<div class="col-xs-{{view_width[0].col}}">
-			<textarea 
-			placeholder="搜尋名稱" 
-			ng-enter="add_where_name(search.name);search.name=undefined;" 
-			ng-model="search.name" 
-			></textarea>
-			<button 
-			class="btn btn-primary btn-sm"
-			ng-click="del_where_name($index)"
-			ng-repeat="item in cache.where_name"
-			>{{item}}</button>
-			
+		<div class="col-xs-2">
+			<div style="vertical-align: top;display:inline-block;">
+				<textarea 
+				placeholder="搜尋名稱" 
+				ng-enter="add_where_name(search.name);search.name=undefined;" 
+				ng-model="search.name" 
+				></textarea>
+			</div>
+			<div style="vertical-align: top;display:inline-block;">
+				<div>
+					狀態
+					<select 
+					ng-options="item.id as item.name for item in status_arr"
+					ng-model="cache.where_status.value"
+					></select>
+					<button
+					class="btn btn-sm"
+					ng-class="cache.where_status.sw?'btn-danger':'btn-primary'"
+					ng-click="cache.where_status.sw=(cache.where_status.sw?0:1)"
+					>{{cache.where_status.sw?'開':'關'}}</button>
+				</div>
+				<div>
+					排序
+					<button
+					class="btn btn-primary btn-sm"
+					ng-click="cache.order_list.type=(cache.order_list.type*1+1) % 2"
+					>粉絲數{{cache.order_list.type?'↓':'↑'}}</button>
+				</div>
+			</div>
+			<div>
+				<button 
+				class="btn btn-primary btn-sm"
+				ng-click="del_where_name($index)"
+				ng-repeat="item in cache.where_name"
+				>{{item}}</button>
+			</div>
 		</div>
-		<div class="col-xs-{{view_width[1].col}}">
-			logo
-		</div>
-		<div class="col-xs-{{view_width[2].col}}">
-			狀態
-			<select 
-			ng-options="item.id as item.name for item in status_arr"
-			ng-model="cache.where_status.value"
-			></select>
-			排序
-			<button
-			class="btn btn-primary btn-sm"
-			ng-click="cache.order_list.type=(cache.order_list.type*1+1) % 2"
-			>粉絲數{{cache.order_list.type?'↓':'↑'}}</button>
-		</div>
-		<div class="col-xs-{{view_width[3].col}}">
+		
+		<div class="col-xs-10">
 			<search-tag 
 			data="cache.search_tid" 
 			callback="get"
@@ -104,41 +115,40 @@
 	ng-repeat="item in list"
 	style="height:100px;"
 	>
-		<div class="col-xs-{{view_width[0].col}}">
+		<div class="col-xs-2">
+			<a 
+			style="display:inline-block;vertical-align: middle;"
+			target="_blank" 
+			href="http://facebook.com/{{item.fb_id}}">
+				<img 
+				style="height:100%;"
+				ng-src="https://graph.facebook.com/{{item.fb_id}}/picture?width=100&height=100&type=large"
+				/>
+			</a>
+			<div style="display:inline-block;vertical-align: middle;">
+				<div>
+					{{item.name}}
+				</div>
+				<div>
+				fb_id:{{item.fb_id}}
+				</div>
+				<div>
+				粉絲數量:{{item.fan_count}}
+				</div>
+				<div>
+					狀態
+					<select 
+					ng-options="item.id as item.name for item in status_arr"
+					ng-model="item.status"
+					ng-change="ch({status:item.status},{id:item.id})"
+					></select>
+				</div>
+			</div>
 			
-			<div>
-				<a 
-				class="btn btn-primary btn-sm"
-				target="_blank" href="http://facebook.com/{{item.fb_id}}">
-				{{item.name}}
-				</a>
-			</div>
-			<div>
-			fb_id:{{item.fb_id}}
-			</div>
-			<div>
-			粉絲數量:{{item.fan_count}}
-			</div>
 		</div>
-		<div class="col-xs-{{view_width[1].col}}" >
-			<img 
-			style="height:100%;"
-			ng-src="https://graph.facebook.com/{{item.fb_id}}/picture?width=100&height=100&type=large"
-			/>
-		</div>
-		<div class="col-xs-{{view_width[2].col}}">
-			狀態
-			<select 
-			ng-options="item.id as item.name for item in status_arr"
-			ng-model="item.status"
-			ng-change="ch({status:item.status},{id:item.id})"
-			></select>
-			<button 
-			ng-click="update_online([item.fb_id])"
-			class="btn btn-primary btn-sm" 
-			>即時更新</button>
-		</div>
-		<div class="col-xs-{{view_width[3].col}}">
+		
+		
+		<div class="col-xs-10">
 			<source-tag 
 			id="item.id" 
 			name="'正在編輯--'+item.name+'--粉絲團標籤'"

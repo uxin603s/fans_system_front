@@ -8,6 +8,8 @@ if(isset($_SESSION['rid'])){
 	header("location:login.php");
 	exit;
 }
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,11 +28,16 @@ src="//connect.facebook.net/zh_TW/sdk.js"
 <script src="app/modules/tagSystem/tagSystem.js?t=<?=time();?>"></script>
 
 <script src="app/modules/tagSystem/components/searchTag/searchTag.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/components/searchTagElement/searchTagElement.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/sourceTag/sourceTag.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/tagLevel/tagLevel.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/tagType/tagType.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/components/tagRelation/tagRelation.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/components/insertTagElement/insertTagElement.js?t=<?=time();?>"></script>
 <script src="app/modules/tagSystem/factories/tagSystem.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/factories/tagType.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/factories/tagLevel.js?t=<?=time();?>"></script>
+<script src="app/modules/tagSystem/factories/tagRelation.js?t=<?=time();?>"></script>
 
 
 <script src="app/app.js?t=<?=time();?>"></script>
@@ -55,13 +62,13 @@ FB.init({
 	xfbml      : true,
 	version    : 'v2.8',
 });
-if(window.location.hash){
-	window.location.href="http://"+window.location.hostname+window.location.pathname;
-}
+
 </script>
 </head>
 <body ng-app="app" class="container-fluid" style="overflow-y:scroll;">
+
 	<fans-list 
+	url="'<?=$_SESSION['tag_url']?>'"
 	ng-if="!cache.not_finish_flag" 
 	></fans-list>
 </body>
