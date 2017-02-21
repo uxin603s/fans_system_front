@@ -14,6 +14,8 @@ if(isset($_SESSION['rid'])){
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 <meta charset="utf-8" />
 <script 
 id="facebook-jssdk" 
@@ -66,7 +68,6 @@ FB.init({
 </script>
 </head>
 <body ng-app="app" class="container-fluid" style="overflow-y:scroll;">
-
 	<fans-list 
 	url="'<?=$_SESSION['tag_url']?>'"
 	ng-if="!cache.not_finish_flag" 

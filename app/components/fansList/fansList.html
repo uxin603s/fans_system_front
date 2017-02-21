@@ -18,7 +18,7 @@
 	</div>
 	
 	<div 
-		class="col-xs-6  bottom_line"
+		class="col-xs-12 col-md-6 bottom_line"
 	>	
 		<textarea
 		style="vertical-align: middle;"
@@ -44,26 +44,30 @@
 		</div>
 	</div>
 	<div 
-		class="col-xs-6  bottom_line"
+	 
+		class="col-xs-12 col-md-6 bottom_line"
 	>	
-		app_id:
-		<textarea 
-		style="width:250px;vertical-align: middle;"
-		ng-model="AppData.id"
-		ng-enter="setFB(AppData)"
-		></textarea>
-		secret:
-		<textarea 
-		style="width:250px;vertical-align: middle;"
-		ng-model="AppData.secret"
-		ng-enter="setFB(AppData)"
-		></textarea>
+		<div style="display:inline-block;">
+			app_id:
+			<textarea 
+			style="vertical-align: middle;"
+			ng-model="AppData.id"
+			ng-enter="setFB(AppData)"
+			></textarea>
+		</div>
+		<div style="display:inline-block;">
+			secret:
+			<textarea 
+			style="vertical-align: middle;"
+			ng-model="AppData.secret"
+			ng-enter="setFB(AppData)"
+			></textarea>
+		</div>
 	</div>
 	<div 
 	class="col-xs-12 row"
-	style="height:100px;"
 	>
-		<div class="col-xs-2">
+		<div class="col-xs-12 col-md-6 col-lg-4">
 			<div style="vertical-align: top;display:inline-block;">
 				<textarea 
 				placeholder="搜尋名稱" 
@@ -100,8 +104,8 @@
 				>{{item}}</button>
 			</div>
 		</div>
-		
-		<div class="col-xs-10">
+		 
+		<div class="col-xs-12 col-md-6 col-lg-8">
 			<search-tag 
 			data="cache.search_tid" 
 			callback="get"
@@ -113,9 +117,8 @@
 	
 	class="col-xs-12 row" 
 	ng-repeat="item in list"
-	style="height:100px;"
 	>
-		<div class="col-xs-2">
+		<div class="col-xs-12 col-md-6 col-lg-4">
 			<a 
 			style="display:inline-block;vertical-align: middle;"
 			target="_blank" 
@@ -148,7 +151,7 @@
 		</div>
 		
 		
-		<div class="col-xs-10">
+		<div class="col-xs-12 col-md-6  col-lg-8">
 			<source-tag 
 			id="item.id" 
 			name="'正在編輯--'+item.name+'--粉絲團標籤'"

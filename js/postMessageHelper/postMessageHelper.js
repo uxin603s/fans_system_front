@@ -9,6 +9,7 @@ var postMessageHelper={
 		self.connect[connect].status=0;
 	},
 	send:function(connect,sendData){
+		
 		var self=this;
 		if(self.connect[connect] && self.connect[connect].status && self.connect[connect].post_window){
 			var timer=setInterval(function(){

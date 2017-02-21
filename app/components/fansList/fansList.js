@@ -4,6 +4,26 @@ bindings:{
 },
 templateUrl:'app/components/fansList/fansList.html?t='+Date.now(),
 controller:["$scope","tagSystem",function($scope,tagSystem){
+	postMessageHelper.receive("fanSystem",function(res){
+		// console.log(res)
+		if(res.name=="watchH"){
+			window.onresize=function(){
+				clearTimeout($scope.resizeTimer)
+				$scope.resizeTimer=setTimeout(function(){
+					var h=document.documentElement.scrollHeight;
+					// console.log(h)
+					postMessageHelper.send('fanSystem',{
+						name:'resize',
+						value:h,
+					})
+					$scope.$apply();
+				},0)
+			}
+			$scope.$watch(function(){
+				return document.documentElement.scrollHeight
+			},window.onresize);
+		}
+	})
 	$scope.insert={};
 	$scope.get_fan_data=function(fb_id,item){
 		// console.log(fb_id,item)
