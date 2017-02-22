@@ -1,4 +1,53 @@
-<div class="col-xs-12"  >	
+<div class="col-xs-12"  >
+		<div 
+	class="col-xs-12 row"
+	>
+		<div class="col-xs-12 col-md-4 col-lg-4">
+			<div style="vertical-align: top;display:inline-block;">
+				<textarea 
+				placeholder="搜尋名稱" 
+				ng-enter="add_where_name(search.name);search.name=undefined;" 
+				ng-model="search.name" 
+				></textarea>
+			</div>
+			<div style="vertical-align: top;display:inline-block;">
+				<div>
+					狀態
+					<select 
+					ng-options="item.id as item.name for item in status_arr"
+					ng-model="cache.where_status.value"
+					></select>
+					<button
+					class="btn btn-sm"
+					ng-class="cache.where_status.sw?'btn-danger':'btn-primary'"
+					ng-click="cache.where_status.sw=(cache.where_status.sw?0:1)"
+					>{{cache.where_status.sw?'開':'關'}}</button>
+				</div>
+				<div>
+					排序
+					<button
+					class="btn btn-primary btn-sm"
+					ng-click="cache.order_list.type=(cache.order_list.type*1+1) % 2"
+					>粉絲數{{cache.order_list.type?'↓':'↑'}}</button>
+				</div>
+			</div>
+			<div>
+				<button 
+				class="btn btn-primary btn-sm"
+				ng-click="del_where_name($index)"
+				ng-repeat="item in cache.where_name"
+				>{{item}}</button>
+			</div>
+		</div>
+		 
+		<div class="col-xs-12 col-md-8 col-lg-8">
+			<search-tag 
+			data="cache.search_tid" 
+			callback="get"
+			></search-tag>
+		</div>
+	</div>
+
 	<tag-system 
 	wid="1"
 	url="$ctrl.url"
@@ -65,60 +114,12 @@
 		</div>
 	</div>
 	<div 
-	class="col-xs-12 row"
-	>
-		<div class="col-xs-12 col-md-6 col-lg-4">
-			<div style="vertical-align: top;display:inline-block;">
-				<textarea 
-				placeholder="搜尋名稱" 
-				ng-enter="add_where_name(search.name);search.name=undefined;" 
-				ng-model="search.name" 
-				></textarea>
-			</div>
-			<div style="vertical-align: top;display:inline-block;">
-				<div>
-					狀態
-					<select 
-					ng-options="item.id as item.name for item in status_arr"
-					ng-model="cache.where_status.value"
-					></select>
-					<button
-					class="btn btn-sm"
-					ng-class="cache.where_status.sw?'btn-danger':'btn-primary'"
-					ng-click="cache.where_status.sw=(cache.where_status.sw?0:1)"
-					>{{cache.where_status.sw?'開':'關'}}</button>
-				</div>
-				<div>
-					排序
-					<button
-					class="btn btn-primary btn-sm"
-					ng-click="cache.order_list.type=(cache.order_list.type*1+1) % 2"
-					>粉絲數{{cache.order_list.type?'↓':'↑'}}</button>
-				</div>
-			</div>
-			<div>
-				<button 
-				class="btn btn-primary btn-sm"
-				ng-click="del_where_name($index)"
-				ng-repeat="item in cache.where_name"
-				>{{item}}</button>
-			</div>
-		</div>
-		 
-		<div class="col-xs-12 col-md-6 col-lg-8">
-			<search-tag 
-			data="cache.search_tid" 
-			callback="get"
-			></search-tag>
-		</div>
-	</div>
-	<div 
 	ng-if="list.length"
 	
 	class="col-xs-12 row" 
 	ng-repeat="item in list"
 	>
-		<div class="col-xs-12 col-md-6 col-lg-4">
+		<div class="col-xs-12 col-md-4 col-lg-4">
 			<a 
 			style="display:inline-block;vertical-align: middle;"
 			target="_blank" 
@@ -151,7 +152,7 @@
 		</div>
 		
 		
-		<div class="col-xs-12 col-md-6  col-lg-8">
+		<div class="col-xs-12 col-md-8  col-lg-8">
 			<source-tag 
 			id="item.id" 
 			name="'正在編輯--'+item.name+'--粉絲團標籤'"
