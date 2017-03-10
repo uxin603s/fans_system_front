@@ -58,11 +58,23 @@ angular.module('tagSystem')
 	}
 	var getTagName=function(tids){
 		var where_list=[];
-		for(var i in tids){
-			if(!data.tagName[tids[i]]){
-				where_list.push({field:'id',type:0,value:tids[i]})
+		// for(var i in tids){
+			// if(!data.tagName[tids[i]]){
+				// where_list.push({field:'id',type:0,value:tids[i]})
+			// }
+		// }
+		var tids=angular.copy(tids);
+		while(tids.length){
+			var id=tids.pop();
+			if(!data.tagName[id]){
+				where_list.push({field:'id',type:0,value:id});
+			}
+			if(where_list.length >= 100){
+				getTagName(tids);
+				break;
 			}
 		}
+		
 		if(!where_list.length){
 			return;
 		}
@@ -161,7 +173,7 @@ angular.module('tagSystem')
 	var searchTid=function(tag_name,callback){
 		
 		var where_list=[];
-		where_list.push({field:'name',type:0,value:tag_name});
+		where_list.push({field:'name',type:2,value:tag_name});
 		
 		var post_data={
 			func_name:"TagName::getList",
@@ -170,14 +182,22 @@ angular.module('tagSystem')
 			}
 		}
 		post(post_data,function(res){
+			console.log(res)
 			if(res.status){
-				var tid=res.list[0].id;
-				var name=res.list[0].name;
-				data.tagName[tid]=name;
-				callback && callback(tid);
-			}else{
-				alert("沒有這個標籤")
+				for(var i in res.list){
+					var tid=res.list[i].id;
+					var name=res.list[i].name;
+					data.tagName[tid]=name;
+				}
+				var tids=res.list.map(function(val){
+					return val.id;
+				})
+				
+				callback && callback(tids);
 			}
+			// else{
+				// alert("沒有這個標籤")
+			// }
 		});
 	}
 	
